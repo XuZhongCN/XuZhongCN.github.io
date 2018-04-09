@@ -1,0 +1,537 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>Redis.md</title><link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}.CodeMirror { height: auto; }
+.CodeMirror-scroll { overflow-y: hidden; overflow-x: auto; }
+.CodeMirror-lines { padding: 4px 0px; }
+.CodeMirror pre { }
+.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler { background-color: white; }
+.CodeMirror-gutters { border-right: 1px solid rgb(221, 221, 221); background-color: rgb(247, 247, 247); white-space: nowrap; }
+.CodeMirror-linenumbers { }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.CodeMirror div.CodeMirror-cursor { border-left: 1px solid black; z-index: 3; }
+.CodeMirror div.CodeMirror-secondarycursor { border-left: 1px solid silver; }
+.CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor { width: auto; border: 0px; background: rgb(119, 238, 119); z-index: 1; }
+.CodeMirror div.CodeMirror-cursor.CodeMirror-overwrite { }
+.cm-tab { display: inline-block; }
+.cm-s-typora-default .cm-header, .cm-s-typora-default .cm-property { color: rgb(217, 79, 138); }
+.cm-s-typora-default pre.cm-header1:not(.cm-atom) :not(.cm-overlay) { font-size: 2rem; line-height: 2rem; }
+.cm-s-typora-default pre.cm-header2:not(.cm-atom) :not(.cm-overlay) { font-size: 1.4rem; line-height: 1.4rem; }
+.cm-s-typora-default .cm-atom, .cm-s-typora-default .cm-number { color: rgb(149, 132, 134); }
+.cm-s-typora-default .cm-table-row, .cm-s-typora-default .cm-block-start { font-family: monospace; }
+.cm-s-typora-default .cm-comment, .cm-s-typora-default .cm-code { color: rgb(74, 90, 159); font-family: monospace; }
+.cm-s-typora-default .cm-tag { color: rgb(169, 68, 66); }
+.cm-s-typora-default .cm-string { color: rgb(126, 134, 169); }
+.cm-s-typora-default .cm-link { color: rgb(196, 122, 15); text-decoration: underline; }
+.cm-s-typora-default .cm-variable-2, .cm-s-typora-default .cm-variable-1 { color: inherit; }
+.cm-s-typora-default .cm-overlay { font-family: monospace; }
+.CodeMirror.cm-s-typora-default div.CodeMirror-cursor { border-left: 3px solid rgb(228, 98, 154); }
+.cm-s-typora-default .CodeMirror-activeline-background { left: -60px; right: -30px; background: rgba(204, 204, 204, 0.2); }
+.cm-s-typora-default .CodeMirror-gutters { border-right: none; background-color: inherit; }
+.cm-s-typora-default .cm-trailing-space-new-line::after, .cm-startspace::after, .cm-starttab .cm-tab::after { content: "•"; position: absolute; left: 0px; opacity: 0; font-family: LetterGothicStd, monospace; }
+.os-windows .cm-startspace::after, .os-windows .cm-starttab .cm-tab::after { left: -0.1em; }
+.cm-starttab .cm-tab::after { content: " "; }
+.cm-startspace, .cm-tab, .cm-starttab, .cm-trailing-space-a, .cm-trailing-space-b, .cm-trailing-space-new-line { font-family: monospace; position: relative; }
+.cm-s-typora-default .cm-trailing-space-new-line::after { content: "↓"; opacity: 0.3; }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: black; }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-property { color: black; }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: blue; }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: bold; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: rgb(255, 0, 0); }
+.cm-invalidchar { color: rgb(255, 0, 0); }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background: inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { margin-bottom: -30px; margin-right: -30px; padding-bottom: 30px; padding-right: 30px; height: 100%; outline: none; position: relative; box-sizing: content-box; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler { position: absolute; z-index: 6; display: none; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow-x: hidden; overflow-y: scroll; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow-y: hidden; overflow-x: scroll; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 30px; z-index: 3; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; background: none !important; border: none !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-radius: 0px; border-width: 0px; background: transparent; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; word-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; }
+.CodeMirror-wrap pre { word-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right: 30px solid transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-widget { }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.CodeMirror-selected { background: rgb(217, 217, 217); }
+.CodeMirror-focused .CodeMirror-selected { background: rgb(215, 212, 240); }
+.cm-searching { background: rgba(255, 255, 0, 0.4); }
+.CodeMirror span { }
+@media print {
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+.CodeMirror-lint-markers { width: 16px; }
+.CodeMirror-lint-tooltip { background-color: infobackground; border: 1px solid black; border-radius: 4px; color: infotext; font-family: monospace; overflow: hidden; padding: 2px 5px; position: fixed; white-space: pre-wrap; z-index: 10000; max-width: 600px; opacity: 0; transition: opacity 0.4s; font-size: 0.8em; }
+.CodeMirror-lint-mark-error, .CodeMirror-lint-mark-warning { background-position: left bottom; background-repeat: repeat-x; }
+.CodeMirror-lint-mark-error { background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJDw4cOCW1/KIAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAHElEQVQI12NggIL/DAz/GdA5/xkY/qPKMDAwAADLZwf5rvm+LQAAAABJRU5ErkJggg=="); }
+.CodeMirror-lint-marker-error, .CodeMirror-lint-marker-warning { background-position: center center; background-repeat: no-repeat; cursor: pointer; display: inline-block; height: 16px; width: 16px; vertical-align: middle; position: relative; }
+.CodeMirror-lint-message-error, .CodeMirror-lint-message-warning { padding-left: 18px; background-position: left top; background-repeat: no-repeat; }
+.CodeMirror-lint-marker-error, .CodeMirror-lint-message-error { background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAHlBMVEW7AAC7AACxAAC7AAC7AAAAAAC4AAC5AAD///+7AAAUdclpAAAABnRSTlMXnORSiwCK0ZKSAAAATUlEQVR42mWPOQ7AQAgDuQLx/z8csYRmPRIFIwRGnosRrpamvkKi0FTIiMASR3hhKW+hAN6/tIWhu9PDWiTGNEkTtIOucA5Oyr9ckPgAWm0GPBog6v4AAAAASUVORK5CYII="); }
+.CodeMirror-lint-marker-warning, .CodeMirror-lint-message-warning { background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAANlBMVEX/uwDvrwD/uwD/uwD/uwD/uwD/uwD/uwD/uwD6twD/uwAAAADurwD2tQD7uAD+ugAAAAD/uwDhmeTRAAAADHRSTlMJ8mN1EYcbmiixgACm7WbuAAAAVklEQVR42n3PUQqAIBBFUU1LLc3u/jdbOJoW1P08DA9Gba8+YWJ6gNJoNYIBzAA2chBth5kLmG9YUoG0NHAUwFXwO9LuBQL1giCQb8gC9Oro2vp5rncCIY8L8uEx5ZkAAAAASUVORK5CYII="); }
+.CodeMirror-lint-marker-multiple { background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAMAAADzjKfhAAAACVBMVEUAAAAAAAC/v7914kyHAAAAAXRSTlMAQObYZgAAACNJREFUeNo1ioEJAAAIwmz/H90iFFSGJgFMe3gaLZ0od+9/AQZ0ADosbYraAAAAAElFTkSuQmCC"); background-repeat: no-repeat; background-position: right bottom; width: 100%; height: 100%; }
+
+
+:root { --bg-color: #ffffff; --text-color: #333333; --code-block-bg-color: inherit; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { background: rgb(181, 214, 252); text-shadow: none; }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; padding-bottom: 70px; white-space: pre-wrap; overflow-x: visible; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+.typora-export #write { margin: 0px auto; }
+#write > p:first-child, #write > ul:first-child, #write > ol:first-child, #write > pre:first-child, #write > blockquote:first-child, #write > div:first-child, #write > table:first-child { margin-top: 30px; }
+#write li > table:first-child { margin-top: -20px; }
+img { max-width: 100%; vertical-align: middle; }
+input, button, select, textarea { color: inherit; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+::before, ::after, * { box-sizing: border-box; }
+#write p, #write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write div, #write pre { width: inherit; }
+#write p, #write h1, #write h2, #write h3, #write h4, #write h5, #write h6 { position: relative; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+p { -webkit-margin-before: 1rem; -webkit-margin-after: 1rem; -webkit-margin-start: 0px; -webkit-margin-end: 0px; }
+.typora-export p { white-space: normal; }
+.mathjax-block { margin-top: 0px; margin-bottom: 0px; -webkit-margin-before: 0rem; -webkit-margin-after: 0rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: bold; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; margin: 4px 0px 0px; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 80px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+pre { white-space: pre-wrap; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: var(--code-block-bg-color); position: relative !important; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+.md-fences .CodeMirror.CodeMirror-wrap { top: -1.6em; margin-bottom: -1.6em; }
+.md-fences.mock-cm { white-space: pre-wrap; }
+.show-fences-line-number .md-fences { padding-left: 0px; }
+.show-fences-line-number .md-fences.mock-cm { padding-left: 40px; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; padding-top: 1em; padding-bottom: 1em; }
+.footnotes + .footnotes { margin-top: -1em; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: transparent; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: normal; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li p, li .mathjax-block { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; }
+@media print {
+  html, body { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  h1, h2, h3, h4, h5, h6 { break-after: avoid-page; orphans: 2; }
+  p { orphans: 4; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 1cm; padding-right: 1cm; padding-bottom: 0px; break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  @page { margin: 20mm 0mm; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 2.86rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p .md-image:only-child { display: inline-block; width: 100%; text-align: center; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.mathjax-block { white-space: pre; overflow: hidden; width: 100%; }
+p + .mathjax-block { margin-top: -1.143rem; }
+.mathjax-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: none; box-shadow: none; }
+.task-list { list-style-type: none; }
+.task-list-item { position: relative; padding-left: 1em; }
+.task-list-item input { position: absolute; top: 0px; left: 0px; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc::after, .md-toc-content::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); text-decoration: none; }
+.md-toc-inner:hover { }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: bold; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+.md-tag { opacity: 0.5; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: monospace; }
+code { text-align: left; }
+h1 .md-tag, h2 .md-tag, h3 .md-tag, h4 .md-tag, h5 .md-tag, h6 .md-tag { font-weight: initial; opacity: 0.35; }
+a.md-print-anchor { border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: none !important; background: transparent !important; text-decoration: initial !important; text-shadow: initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.mathjax-block .MathJax_SVG_Display { text-align: center; margin: 1em 0em; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: monospace; }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: normal; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; }
+
+
+:root { --side-bar-bg-color: #fafafa; --control-text-color: #777; }
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: normal; src: local("Open Sans Regular"), url("./github/400.woff") format("woff"); }
+@font-face { font-family: "Open Sans"; font-style: italic; font-weight: normal; src: local("Open Sans Italic"), url("./github/400i.woff") format("woff"); }
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: bold; src: local("Open Sans Bold"), url("./github/700.woff") format("woff"); }
+@font-face { font-family: "Open Sans"; font-style: italic; font-weight: bold; src: local("Open Sans Bold Italic"), url("./github/700i.woff") format("woff"); }
+html { font-size: 16px; }
+body { font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.6; }
+#write { max-width: 860px; margin: 0px auto; padding: 20px 30px 100px; }
+#write > ul:first-child, #write > ol:first-child { margin-top: 30px; }
+body > :first-child { margin-top: 0px !important; }
+body > :last-child { margin-bottom: 0px !important; }
+a { color: rgb(65, 131, 196); }
+h1, h2, h3, h4, h5, h6 { position: relative; margin-top: 1rem; margin-bottom: 1rem; font-weight: bold; line-height: 1.4; cursor: text; }
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor { text-decoration: none; }
+h1 tt, h1 code { font-size: inherit; }
+h2 tt, h2 code { font-size: inherit; }
+h3 tt, h3 code { font-size: inherit; }
+h4 tt, h4 code { font-size: inherit; }
+h5 tt, h5 code { font-size: inherit; }
+h6 tt, h6 code { font-size: inherit; }
+h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom: 1px solid rgb(238, 238, 238); }
+h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom: 1px solid rgb(238, 238, 238); }
+h3 { font-size: 1.5em; line-height: 1.43; }
+h4 { font-size: 1.25em; }
+h5 { font-size: 1em; }
+h6 { font-size: 1em; color: rgb(119, 119, 119); }
+p, blockquote, ul, ol, dl, table { margin: 0.8em 0px; }
+li > ol, li > ul { margin: 0px; }
+hr { height: 4px; padding: 0px; margin: 16px 0px; background-color: rgb(231, 231, 231); border-width: 0px 0px 1px; border-style: none none solid; border-top-color: initial; border-right-color: initial; border-left-color: initial; border-image: initial; overflow: hidden; box-sizing: content-box; border-bottom-color: rgb(221, 221, 221); }
+body > h2:first-child { margin-top: 0px; padding-top: 0px; }
+body > h1:first-child { margin-top: 0px; padding-top: 0px; }
+body > h1:first-child + h2 { margin-top: 0px; padding-top: 0px; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child { margin-top: 0px; padding-top: 0px; }
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 { margin-top: 0px; padding-top: 0px; }
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p { margin-top: 0px; }
+li p.first { display: inline-block; }
+ul, ol { padding-left: 30px; }
+ul:first-child, ol:first-child { margin-top: 0px; }
+ul:last-child, ol:last-child { margin-bottom: 0px; }
+blockquote { border-left: 4px solid rgb(221, 221, 221); padding: 0px 15px; color: rgb(119, 119, 119); }
+blockquote blockquote { padding-right: 0px; }
+table { padding: 0px; word-break: initial; }
+table tr { border-top: 1px solid rgb(204, 204, 204); margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 1px solid rgb(204, 204, 204); text-align: left; margin: 0px; padding: 6px 13px; }
+table tr td { border: 1px solid rgb(204, 204, 204); text-align: left; margin: 0px; padding: 6px 13px; }
+table tr th:first-child, table tr td:first-child { margin-top: 0px; }
+table tr th:last-child, table tr td:last-child { margin-bottom: 0px; }
+.CodeMirror-gutters { border-right: 1px solid rgb(221, 221, 221); }
+.md-fences, code, tt { border: 1px solid rgb(221, 221, 221); background-color: rgb(248, 248, 248); border-radius: 3px; font-family: Consolas, "Liberation Mono", Courier, monospace; padding: 2px 4px 0px; font-size: 0.9em; }
+.md-fences { margin-bottom: 15px; margin-top: 15px; padding: 8px 1em 6px; }
+.task-list { padding-left: 0px; }
+.task-list-item { padding-left: 32px; }
+.task-list-item input { top: 3px; left: 8px; }
+@media screen and (min-width: 914px) {
+}
+@media print {
+  html { font-size: 13px; }
+  table, pre { break-inside: avoid; }
+  pre { word-wrap: break-word; }
+}
+.md-fences { background-color: rgb(248, 248, 248); }
+#write pre.md-meta-block { padding: 1rem; font-size: 85%; line-height: 1.45; background-color: rgb(247, 247, 247); border: 0px; border-radius: 3px; color: rgb(119, 119, 119); margin-top: 0px !important; }
+.mathjax-block > .code-tooltip { bottom: 0.375rem; }
+#write > h3.md-focus::before { left: -1.5625rem; top: 0.375rem; }
+#write > h4.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
+#write > h5.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
+#write > h6.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
+.md-image > .md-meta { border: 1px solid rgb(221, 221, 221); border-radius: 3px; font-family: Consolas, "Liberation Mono", Courier, monospace; padding: 2px 4px 0px; font-size: 0.9em; color: inherit; }
+.md-tag { color: inherit; }
+.md-toc { margin-top: 20px; padding-bottom: 20px; }
+.sidebar-tabs { border-bottom: none; }
+#typora-quick-open { border: 1px solid rgb(221, 221, 221); background-color: rgb(248, 248, 248); }
+#typora-quick-open-item { background-color: rgb(250, 250, 250); border-color: rgb(254, 254, 254) rgb(229, 229, 229) rgb(229, 229, 229) rgb(238, 238, 238); border-style: solid; border-width: 1px; }
+#md-notification::before { top: 10px; }
+.on-focus-mode blockquote { border-left-color: rgba(85, 85, 85, 0.12); }
+header, .context-menu, .megamenu-content, footer { font-family: "Segoe UI", Arial, sans-serif; }
+.file-node-content:hover .file-node-icon, .file-node-content:hover .file-node-open-state { visibility: visible; }
+.mac-seamless-mode #typora-sidebar { background-color: var(--side-bar-bg-color); }
+.md-lang { color: rgb(180, 101, 77); }
+
+
+
+
+
+
+</style>
+</head>
+<body class='typora-export' >
+<div  id='write'  class = 'is-node'><h3><a name='header-n0' class='md-header-anchor '></a>Redis</h3><hr /><p>版本：</p><p>redis  3.2.11</p><h4><a name='header-n7' class='md-header-anchor '></a>第一节 Redis简介</h4><h5><a name='header-n8' class='md-header-anchor '></a>1.1 NoSQL</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>NoSQL，泛指非关系型的数据库，NoSQL即Not-Only SQL，它可以作为关系型数据库的良好补充。随着互联网web2.0网站的兴起，非关系型的数据库现在成了一个极其热门的新领域，非关系数据库产品的发展非常迅速</pre><p>而传统的关系数据库在应付web2.0网站，特别是超大规模和高并发的SNS类型的web2.0纯动态网站已经显得力不从心，暴露了很多难以克服的问题，例如： </p><pre class='md-fences mock-cm' style='display:block;position:relative'>1、High performance - 对数据库高并发读写的需求 
+web2.0网站要根据用户个性化信息来实时生成动态页面和提供动态信息，所以基本上无法使用动态页面静态化技术，因此数据库并发负载非常高，往往要达到每秒上万次读写请求。关系数据库应付上万次SQL查询还勉强顶得住，但是应付上万次SQL写数据请求，硬盘IO就已经无法承受了。其实对于普通的BBS网站，往往也存在对高并发写请求的需求，例如网站的实时统计在线用户状态，记录热门帖子的点击次数，投票计数等，因此这是一个相当普遍的需求。</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>2、Huge Storage - 对海量数据的高效率存储和访问的需求 
+类似Facebook，twitter，Friendfeed这样的SNS网站，每天用户产生海量的用户动态，以Friendfeed为例，一个月就达到了2.5亿条用户动态，对于关系数据库来说，在一张2.5亿条记录的表里面进行SQL查询，效率是极其低下乃至不可忍受的。再例如大型web网站的用户登录系统，例如腾讯，盛大，动辄数以亿计的帐号，关系数据库也很难应付。 </pre><pre class='md-fences mock-cm' style='display:block;position:relative'>3、High Scalability &amp;&amp; High Availability- 对数据库的高可扩展性和高可用性的需求 
+在基于web的架构当中，数据库是最难进行横向扩展的，当一个应用系统的用户量和访问量与日俱增的时候，你的数据库却没有办法像web server和app server那样简单的通过添加更多的硬件和服务节点来扩展性能和负载能力。对于很多需要提供24小时不间断服务的网站来说，对数据库系统进行升级和扩展是非常痛苦的事情，往往需要停机维护和数据迁移，为什么数据库不能通过不断的添加服务器节点来实现扩展呢？ 
+</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>NoSQL数据库的产生就是为了解决大规模数据集合多重数据种类带来的挑战，尤其是大数据应用难题</pre><p> <img src='mdpic/p1.PNG' alt='p1' /></p><h5><a name='header-n18' class='md-header-anchor '></a>1.2 NoSQL的类别</h5><h6><a name='header-n19' class='md-header-anchor '></a>1.2.1键值(Key-Value)存储数据库</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>相关产品： Tokyo Cabinet/Tyrant、Redis、Voldemort、Berkeley DB
+典型应用： 内容缓存，主要用于处理大量数据的高访问负载。 
+数据模型： 一系列键值对
+优势： 快速查询
+劣势： 存储的数据缺少结构化</pre><h6><a name='header-n21' class='md-header-anchor '></a>1.2.2 列存储数据库</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>相关产品：Cassandra, HBase, Riak
+典型应用：分布式的文件系统
+数据模型：以列簇式存储，将同一列数据存在一起
+优势：查找速度快，可扩展性强，更容易进行分布式扩展
+劣势：功能相对局限</pre><h6><a name='header-n23' class='md-header-anchor '></a>1.2.3 文档型数据库</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>相关产品：CouchDB、MongoDB
+典型应用：Web应用（与Key-Value类似，Value是结构化的）
+数据模型： 一系列键值对
+ 优势：数据结构要求不严格
+ 劣势： 查询性能不高，而且缺乏统一的查询语法</pre><h6><a name='header-n25' class='md-header-anchor '></a>1.2.4 图形(Graph)数据库</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>相关数据库：Neo4J、InfoGrid、Infinite Graph
+典型应用：社交网络
+数据模型：图结构
+优势：利用图结构相关算法。
+劣势：需要对整个图做计算才能得出结果，不容易做分布式的集群方案。</pre><h5><a name='header-n27' class='md-header-anchor '></a>1.3 Redis是什么</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>2008年，意大利的一家创业公司Merzia推出了一款基于MySQL的网站实时统计系统LLOOGG，然而没过多久该公司的创始人 Salvatore Sanfilippo便对MySQL的性能感到失望，于是他决定亲自为LLOOGG量身定做一个数据库，并于2009年开发完成，这个数据库就是Redis。不过Salvatore Sanfilippo并不满足只将Redis用于LLOOGG这一款产品，而是希望更多的人使用它，于是在同一年Salvatore Sanfilippo将Redis开源发布，并开始和Redis的另一名主要的代码贡献者Pieter Noordhuis一起继续着Redis的开发，直到今天。</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>Salvatore Sanfilippo自己也没有想到，短短的几年时间，Redis就拥有了庞大的用户群体。Hacker News在2012年发布了一份数据库的使用情况调查，结果显示有近12%的公司在使用Redis。国内如新浪微博、街旁网、知乎网，国外如GitHub、Stack Overflow、Flickr等都是Redis的用户。
+VMware公司从2010年开始赞助Redis的开发， Salvatore Sanfilippo和Pieter Noordhuis也分别在3月和5月加入VMware，全职开发Redis。</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>Redis是用C语言开发的一个开源的高性能键值对（key-value）数据库。它通过提供多种键值数据类型来适应不同场景下的存储需求，目前为止Redis支持的键值数据类型如下：
+    字符串类型
+    散列类型
+    列表类型
+    集合类型
+    有序集合类型</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>Redis 与其他 key - value 缓存产品有以下三个特点：
+
+- Redis支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。
+- Redis不仅仅支持简单的key-value类型的数据，同时还提供list，set，zset，hash等数据结构的存储。
+- Redis支持数据的备份，即master-slave模式的数据备份。
+  
+  Redis 提供的API支持：C、C++、C#、Clojure、Java、JavaScript、Lua、PHP、Python、Ruby、Go、Scala、Perl等多种语言。
+</pre><h5><a name='header-n32' class='md-header-anchor '></a>1.4 Redis的应用场景</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>目前全球最大的Redis用户是新浪微博，在新浪有200多台物理机，400多个端口正在运行Redis，有+4G的数据在Redis上来为微博用户提供服务
+
+- 取最新的N个数据（取最新文档、排行榜等）
+- 需要精确设定过期时间的应用
+- 计数器应用
+- 实时性要求的高并发读写
+- 消息系统Pub/Sub
+- 构建队列
+- 缓存
+</pre><h5><a name='header-n34' class='md-header-anchor '></a>1.5 Redis优缺点</h5><h6><a name='header-n35' class='md-header-anchor '></a>1.5.1 Redis 优势</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>对数据高并发读写（基于内存）
+对海量数据的高效率存储和访问（基于内存）
+对数据的可扩展性和高可用性
+垂直扩展：提升硬件
+水平扩展：集群</pre><h6><a name='header-n37' class='md-header-anchor '></a>1.5.2 Redis 缺点</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>redis（ACID处理非常简单）无法做到太复杂的关系数据库模型</pre><h5><a name='header-n39' class='md-header-anchor '></a>1.6 Redis面向互联网的解决方案</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>- 主从：一主多从，主机可写，从机备份。类似于Mysql的读写分离，存在问题是一但主节点down掉，整个Redis不可用。
+- 哨兵(2.x)：启用一个哨兵程序(节点)，监控其余节点的状态，根据选举策略，进行主从切换。
+  		缺点：每个节点的数据依旧是一致的，仍无法实现分布式的数据库。
+- 集群(3.x)：结合上述两种模式，多主多从，实现高可用、分布式数据存储</pre><h4><a name='header-n41' class='md-header-anchor '></a>第二节 Redis的安装</h4><h5><a name='header-n42' class='md-header-anchor '></a>2.1 下载</h5><p>从官网下载，<a href='http://download.redis.io/releases/'>Redis官网点击下载</a></p><p>通过SecureCRT将下载的文件上传到/opt/work目录</p><p>解压&amp;编译&amp;安装</p><pre class='md-fences mock-cm' style='display:block;position:relative'>cd /opt/work		切换到指定目录
+tar -zxvf redis-3.2.11.tar.gz    解压
+cd redis-3.2.11      切换到解压目录
+make   编译
+make PREFIX=/opt/work/redis install   安装</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>源码目录分析：
+	在/opt/work/src/redis3.2/下有一个redis.conf文件，这个文件为redis核心配置文件。
+	在/opt/work/src/redis3.2/src/下，有redis的常用命令，安装完成后，会将这些命令自动放入到安装路径下的bin目录下
+	在/opt/work/src/redis3.2/utils/下，有redis的服务启动脚本</pre><h5><a name='header-n51' class='md-header-anchor '></a>2.2 配置和启动</h5><p>redis.conf是redis的配置文件，redis.conf在redis源码目录。</p><p>注意修改port作为redis进程的端口,port默认6379。</p><p>拷贝配置文件到安装目录下 </p><p>进入源码目录，里面有一份配置文件 redis.conf，然后将其拷贝到安装路径下</p><pre class="md-fences md-end-block" lang="shell"> <div class="CodeMirror cm-s-inner CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; min-height: 93px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cd</span> /opt/work/redis<span class="cm-tab" role="presentation" cm-text="	">  </span><span class="cm-tab" role="presentation" cm-text="	">    </span>切换目录</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">mkdir</span> conf <span class="cm-tab" role="presentation" cm-text="	"> </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>创建配置文件的目录</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">cp</span> /opt/work/redis-3.2.11/redis.conf /opt/work/redis/conf<span class="cm-tab" role="presentation" cm-text="	">   </span><span class="cm-tab" role="presentation" cm-text="	">    </span>复制配置文件</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">./redis-server<span class="cm-tab" role="presentation" cm-text="	">  </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>启动</span></pre></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom: 0px solid transparent; top: 93px;"></div><div class="CodeMirror-gutters" style="display: none; height: 123px;"></div></div></div></pre><p> redis关闭的方式</p><pre class="md-fences md-end-block" lang="shell"> <div class="CodeMirror cm-s-inner CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; min-height: 67px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">pkill redis server</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">kill</span> 进程号</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">/opt/work/redis/bin/redis-cli shutdown</span></pre></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom: 0px solid transparent; top: 67px;"></div><div class="CodeMirror-gutters" style="display: none; height: 97px;"></div></div></div></pre><p><img src='mdpic/p2.PNG' alt='p2' /></p><pre class='md-fences mock-cm' style='display:block;position:relative'>注意：这里直接执行Redis-server 启动的Redis服务，是在前台直接运行的(效果如上图)，也就是说，执行完该命令后，如果Lunix关闭当前会话，则Redis服务也随即关闭。正常情况下，启动Redis服务需要从后台启动，并且指定启动配置文件。</pre><h5><a name='header-n67' class='md-header-anchor '></a>2.3 后端模式启动</h5><p>修改redis.conf配置文件， daemonize yes 以后端模式启动</p><pre class='md-fences mock-cm' style='display:block;position:relative'>执行如下命令启动redis：
+vim /opt/work/redis/conf/redis.conf   编辑redis的配置文件，修改daemonize yes 保存即可</pre><p> <img src='mdpic/p3.PNG' alt='p3' /></p><pre class='md-fences mock-cm' style='display:block;position:relative'> ps aux|grep redis		查询redis是否启动
+ /opt/work/redis/bin/redis-server		启动redis</pre><p>redis.conf配置文件详解</p><pre class="md-fences md-end-block" lang="properties"> <div class="CodeMirror cm-s-inner CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; min-height: 2979px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.1. Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  daemonize no</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.2. 当Redis以守护进程方式运行时，Redis默认会把pid写入/var/run/redis.pid文件，可以通过pidfile指定</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  pidfile /var/run/redis.pid</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.3. 指定Redis监听端口，默认端口为6379，作者在自己的一篇博文中解释了为什么选用6379作为默认端口，因为6379在手机按键上MERZ对应的号码，而MERZ取自意大利歌女Alessia Merz的名字</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  port 6379</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.4. 绑定的主机地址</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  bind 127.0.0.1</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.5.当 客户端闲置多长时间后关闭连接，如果指定为0，表示关闭该功能</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  timeout 300</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.6. 指定日志记录级别，Redis总共支持四个级别：debug、verbose、notice、warning，默认为verbose</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  loglevel verbose</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.7. 日志记录方式，默认为标准输出，如果配置Redis为守护进程方式运行，而这里又配置为日志记录方式为标准输出，则日志将会发送给/dev/null</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  logfile stdout</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.8. 设置数据库的数量，默认数据库为0，可以使用SELECT &lt;dbid&gt;命令在连接上指定数据库id</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  databases 16</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp; &nbsp;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.9. 指定在多长时间内，有多少次更新操作，就将数据同步到数据文件，可以多个条件配合</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  save &lt;seconds&gt; &lt;changes&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  Redis默认配置文件中提供了三个条件：</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  save 900 1</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  save 300 10</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  save 60 10000</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  分别表示900秒（15分钟）内有1个更改，300秒（5分钟）内有10个更改以及60秒内有10000个更改。</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.10. 指定存储至本地数据库时是否压缩数据，默认为yes，Redis采用LZF压缩，如果为了节省CPU时间，可以关闭该选项，但会导致数据库文件变的巨大</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  rdbcompression yes</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.11. 指定本地数据库文件名，默认值为dump.rdb</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  dbfilename dump.rdb</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.12. 指定本地数据库存放目录</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  dir ./</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.13. 设置当本机为slav服务时，设置master服务的IP地址及端口，在Redis启动时，它会自动从master进行数据同步</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  slaveof &lt;masterip&gt; &lt;masterport&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.14. 当master服务设置了密码保护时，slav服务连接master的密码</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  masterauth &lt;master-password&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.15. 设置Redis连接密码，如果配置了连接密码，客户端在连接Redis时需要通过AUTH &lt;password&gt;命令提供密码，默认关闭</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  requirepass foobared</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.16. 设置同一时间最大客户端连接数，默认无限制，Redis可以同时打开的客户端连接数为Redis进程可以打开的最大文件描述符数，如果设置 maxclients 0，表示不作限制。当客户端连接数到达限制时，Redis会关闭新的连接并向客户端返回max number of clients reached错误信息</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  maxclients 128</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.17. 指定Redis最大内存限制，Redis在启动时会把数据加载到内存中，达到最大内存后，Redis会先尝试清除已到期或即将到期的Key，当此方法处理 后，仍然到达最大内存设置，将无法再进行写入操作，但仍然可以进行读取操作。Redis新的vm机制，会把Key存放内存，Value会存放在swap区</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  maxmemory &lt;bytes&gt;</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.18. 指定是否在每次更新操作后进行日志记录，Redis在默认情况下是异步的把数据写入磁盘，如果不开启，可能会在断电时导致一段时间内的数据丢失。因为 redis本身同步数据文件是按上面save条件来同步的，所以有的数据会在一段时间内只存在于内存中。默认为no</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  appendonly no</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.19. 指定更新日志文件名，默认为appendonly.aof</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp; &nbsp; appendfilename appendonly.aof</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.20. 指定更新日志条件，共有3个可选值： </span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  no：表示等操作系统进行数据缓存同步到磁盘（快） </span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  always：表示每次更新操作后手动调用fsync()将数据写到磁盘（慢，安全） </span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  everysec：表示每秒同步一次（折衷，默认值）</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  appendfsync everysec</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.21. 指定是否启用虚拟内存机制，默认值为no，简单的介绍一下，VM机制将数据分页存放，由Redis将访问量较少的页即冷数据swap到磁盘上，访问多的页面由磁盘自动换出到内存中（在后面的文章我会仔细分析Redis的VM机制）</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp; &nbsp; vm-enabled no</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.22. 虚拟内存文件路径，默认值为/tmp/redis.swap，不可多个Redis实例共享</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp; &nbsp; vm-swap-file /tmp/redis.swap</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.23. 将所有大于vm-max-memory的数据存入虚拟内存,无论vm-max-memory设置多小,所有索引数据都是内存存储的(Redis的索引数据 就是keys),也就是说,当vm-max-memory设置为0的时候,其实是所有value都存在于磁盘。默认值为0</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp; &nbsp; vm-max-memory 0</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.24. Redis swap文件分成了很多的page，一个对象可以保存在多个page上面，但一个page上不能被多个对象共享，vm-page-size是要根据存储的 数据大小来设定的，作者建议如果存储很多小对象，page大小最好设置为32或者64bytes；如果存储很大大对象，则可以使用更大的page，如果不 确定，就使用默认值</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp; &nbsp; vm-page-size 32</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.25. 设置swap文件中的page数量，由于页表（一种表示页面空闲或使用的bitmap）是在放在内存中的，，在磁盘上每8个pages将消耗1byte的内存。</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp; &nbsp; vm-pages 134217728</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.26. 设置访问swap文件的线程数,最好不要超过机器的核数,如果设置为0,那么所有对swap文件的操作都是串行的，可能会造成比较长时间的延迟。默认值为4</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp; &nbsp; vm-max-threads 4</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.27. 设置在向客户端应答时，是否把较小的包合并为一个包发送，默认为开启</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  glueoutputbuf yes</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.28. 指定在超过一定的数量或者最大的元素超过某一临界值时，采用一种特殊的哈希算法</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  hash-max-zipmap-entries 64</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  hash-max-zipmap-value 512</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.29. 指定是否激活重置哈希，默认为开启（后面在介绍Redis的哈希算法时具体介绍）</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  activerehashing yes</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">4.30. 指定包含其它的配置文件，可以在同一主机上多个Redis实例之间使用同一份配置文件，而同时各个实例又拥有自己的特定配置文件</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def"> &nbsp;  include /path/to/local.conf</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom: 0px solid transparent; top: 2979px;"></div><div class="CodeMirror-gutters" style="display: none; height: 3009px;"></div></div></div></pre><h5><a name='header-n77' class='md-header-anchor '></a>2.4 启动多个redis进程</h5><h6><a name='header-n78' class='md-header-anchor '></a>2.4.1 启动时指定端口</h6><p>启动时指定端口可在一台服务器启动多个redis进程</p><pre class='md-fences mock-cm' style='display:block;position:relative'>cd /opt/work/redis/bin
+./redis-server ../conf/redis.conf --port 6380</pre><h6><a name='header-n82' class='md-header-anchor '></a>2.4.2 创建多个redis目录</h6><p>创建多个redis目录，以端口号命名,推荐使用此种方式</p><pre class="md-fences md-end-block" lang="properties"> <div class="CodeMirror cm-s-inner CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; min-height: 179px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">比如：创建6381、6382两个目录，将redis的安装文件bin和conf拷贝至这两个目录。</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">修改6381目录下的redis.conf设置端口号为6381</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">修改6382目录下的redis.conf设置端口号为6382</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">启动6381和6382目录下的redis-server程序：</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">cd 6381</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">./redis-server . /redis.conf</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">cd 6382</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-def">./redis-server . /redis.conf</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom: 0px solid transparent; top: 179px;"></div><div class="CodeMirror-gutters" style="display: none; height: 209px;"></div></div></div></pre><h5><a name='header-n86' class='md-header-anchor '></a>2.5  redis客户端</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>在redis的安装目录中有redis的客户端，即redis-cli（Redis Command Line Interface），它是Redis自带的基于命令行的Redis客户端</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>ps aux|grep redis    查询redis是否启动
+./redis-server ../conf/redis.conf 	启动redis
+./redis-cli -h 127.0.0.1 -p 6379   启动redis客户端
+ping     Redis提供了PING命令来测试客户端与Redis的连接是否正常，如果连接正常会收到回复PONG</pre><p> </p><p>  <img src='mdpic/p5.PNG' alt='p4' /></p><h5><a name='header-n93' class='md-header-anchor '></a>2.6 远程连接</h5><p>默认不允许远程连接，需要修改一下信息才可以进行修改</p><pre class="md-fences md-end-block" lang="shell"> <div class="CodeMirror cm-s-inner CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 30px; min-height: 183px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">将redis.conf中的bind <span class="cm-number">127</span>.0.0.1进行注释</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-builtin">vim</span> /opt/work/redis/conf/redis.conf &nbsp;  编辑配置文件</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">/opt/work/redis/bin/redis-server ../conf/redis.conf &nbsp; 启动redis</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">/opt/work/redis/bin/redis-cli<span class="cm-tab" role="presentation" cm-text="	">   </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>打开客户端，连接成功，再进行下一步</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">config <span class="cm-keyword">set</span> requirepass lx<span class="cm-tab" role="presentation" cm-text="	">   </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>设置密码</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">quit<span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>退出客户端</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">/opt/work/redis/bin/redis-cli<span class="cm-tab" role="presentation" cm-text="	">   </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>打开客户端</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">auth lx<span class="cm-tab" role="presentation" cm-text="	"> </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>输入密码</span></pre></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom: 0px solid transparent; top: 183px;"></div><div class="CodeMirror-gutters" style="display: none; height: 213px;"></div></div></div></pre><p>使用远程进行连接 <img src='mdpic/p6.PNG' alt='p6' /></p><h4><a name='header-n99' class='md-header-anchor '></a>第三节 redis常用命令</h4><h5><a name='header-n100' class='md-header-anchor '></a>3.1 基础命令</h5><h6><a name='header-n101' class='md-header-anchor '></a>3.1.1 操作String类型</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>String 数据结构是简单的key-value类型，value其实不仅是String，也可以是数字，是包含很多种类型的特殊类型，并且是二进制安全的。比如序列化的对象进行存储，比如一张图片进行二进制存储，比如一个简单的字符串,数值等等。</pre><p>常用命令：</p><pre class='md-fences mock-cm' style='display:block;position:relative'>设值：set name zhangsan (说明：多次设置name会覆盖)
+命令：
+  setnx name lx： (not exist) 如果name不存在，则设值。如果name存在，则不设值并返回0；
+  setex name 10 lx :(expired) 设置name的值为lx，过期时间为10秒，10秒后name清除（key也清除）
+  setrange string range value 替换字符串
+取值: get name
+删值：del name
+批量写：mset k1 v1 k2 v2 ...
+批量读：mget k1 k2 k3
+一次性设值和读取（返回旧值，写上新值）:getset name lx
+数值类型自增减：incr，decr，incrby，decrby
+字符串拼接：append key value
+字符串长度：strlen key</pre><p>命令演示</p><p> <img src='mdpic/p7.PNG' alt='p7' /></p><p> <img src='mdpic/p8.PNG' alt='p8' /></p><pre class='md-fences mock-cm' style='display:block;position:relative'> setrange pw 1 user   将key为pw的值从索引为1的开始进行替换，后面的由原来的字符补齐</pre><h6><a name='header-n113' class='md-header-anchor '></a>3.1.2 Hash类型</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>Hash类型是String类型的field和value的映射表，或者说是一个String集合。它特别适合存储对象，相比较而言，将一个对象类型存储在Hash类型要存储在String类型里占用更少的内存空间，并方整个对象的存取。</pre><p>常用命令</p><pre class='md-fences mock-cm' style='display:block;position:relative'>设值：hset hashname field value（hset是设值命令，hashname是集合名字，field是字段名，value是值）
+取值：hget hashname field 
+批量设置：hmset hashname field1 value1 field2 value2 ….
+批量取值：hmget hashname field1 field2 ...
+hsetnx：和setnx大同小异
+hincrby：指定字段增加指定值
+hexists：是否存在key，如果存在返回，不存在返回0
+删除：hdel 删除指定的hash的field
+hlen：返回hash集合里的所有的键数值(size)
+hkeys：返回hash里所有的字段
+hvals：返回hash的所有value	
+hgetall：返回hash里所有的key和value	</pre><p>命令演示</p><p> <img src='mdpic/p9.PNG' alt='p9' /></p><p> <img src='mdpic/p10.PNG' alt='p10' /></p><p> <img src='mdpic/p11.PNG' alt='p11' /></p><h6><a name='header-n126' class='md-header-anchor '></a>3.1.3 List类型</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>List类型是一个链表结构的集合，其主要功能有push、pop、获取元素等。更详细的说，List类型是一个双端链表的节后，我们可以通过相关的操作进行集合的头部或者尾部添加和删除元素，List的设计非常简单精巧，即可以作为栈，又可以作为队列，满足绝大多数的需求。</pre><p>常用命令</p><pre class='md-fences mock-cm' style='display:block;position:relative'>lpush：从头部加入元素（栈，先进后出）
+rpush：从尾部加入元素（队列，先进先出）
+linsert：插入元素 
+lrange:获取指定索引内的所有元素
+lset：将制定下表的元素替换掉
+lrem：删除元素，移除n个，返回删除的个数n
+ltrim：保留制定key的值范围内的数据
+lpop：从list的头部删除元素，并返回删除元素。
+rpop：从list的尾部删除元素，并返回删除元素
+rpoplpush list1 list2：从list1尾部删除元素，并将被移除的元素添加到list2的头部，返回被移除的元素，可以实现MQ
+llen：返回元素个数
+lindex：返回名称为key的list中index位置的元素</pre><p>命令演示</p><p> <img src='mdpic/p12.PNG' alt='p12' /></p><p> <img src='mdpic/p13.PNG' alt='p13' /></p><p> <img src='mdpic/p14.PNG' alt='p14' /></p><h6><a name='header-n139' class='md-header-anchor '></a>3.1.4 Set类型</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>set集合是string类型的无序集合，set是通过hashtable实现的，对集合我们可以取交集、并集、差集</pre><p>常用命令</p><pre class='md-fences mock-cm' style='display:block;position:relative'>sadd：向名称为key的set中添加元素，set集合不允许重复元素。
+smembers：查看set集合中的元素。
+srem：删除set集合的元素
+spop：随机返回删除的key
+sdiff：返回两个集合的不同元素（哪个集合在前面就以哪个集合为标准）
+sdiffstore：将返回的不同元素，存储到另一个集合里
+sdiffstore set4 set2 set3 将set2 set3的比较结果保存到set4中
+sinter：取交集
+sinterstore：取交集后保存
+sunion:取并集
+sunionstore：取并集后保存
+smove：从一个set集合移动到另一个set集合里
+scard：查看集合里的元素个数
+sismember：判断某个元素是否为集合中的元素，是，返回1。不是，返回0。
+srandmember：随机返回一个元素
+</pre><p>命令演示</p><p> <img src='mdpic/p15.PNG' alt='p15' /></p><p> <img src='mdpic/p16.PNG' alt='p16' /></p><h6><a name='header-n150' class='md-header-anchor '></a>3.1.5 Zset类型</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>有序集合和集合一样也是string类型元素的集合,且不允许重复的成员。不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>有序集合的成员是唯一的,但分数(score)却可以重复。
+集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。 集合中最大的成员数为 232 - 1 (4294967295, 每个集合可存储40多亿个成员)。</pre><p>常用命令</p><pre class='md-fences mock-cm' style='display:block;position:relative'>zadd：向有序集合中添加一个元素，该元素如果存在则更新顺序，如果分值相同元素不同会同时存在两个元素。
+zrem ：删除zset名称key中的member元素
+zrank 返回有序集合中指定成员的索引（从小到大排序）
+zrevrank 返回有序集合中指定成员的排名，有序集成员按分数值递减(从大到小)排序
+zcard 返回集合里所有元素的个数
+zcount 返回集合中score在给定区间中的数量
+zincrby key increment member： 有序集合中对指定成员的分数加上增量 increment
+zrangebyscore key min max [WITHSCORES] [LIMIT] ：通过分数返回有序集合指定区间内的成员
+zremrangebyrank key start stop ：移除有序集合中给定的排名区间的所有成员
+zremrangebyscore  key min max：移除有序集合中给定的分数区间的所有成员</pre><p>命令演示</p><p> <img src='mdpic/p17.PNG' alt='p17' /></p><p> <img src='mdpic/p18.PNG' alt='p18' /></p><h6><a name='header-n162' class='md-header-anchor '></a>3.1.6 HyperLogLog</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>Redis 在 2.8.9 版本添加了 HyperLogLog 结构。
+Redis HyperLogLog 是用来做基数统计的算法，HyperLogLog 的优点是，在输入元素的数量或者体积非常非常大时，计算基数所需的空间总是固定 的、并且是很小的。</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>在 Redis 里面，每个 HyperLogLog 键只需要花费 12 KB 内存，就可以计算接近 2^64 个不同元素的基 数。这和计算基数时，元素越多耗费内存就越多的集合形成鲜明对比。
+但是，因为 HyperLogLog 只会根据输入元素来计算基数，而不会储存输入元素本身，所以 HyperLogLog 不能像集合那样，返回输入的各个元素。</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>小知识：
+什么是基数?
+比如数据集 {1，2,1,2} 那么这个数据集的基数集为 {1，2}, 基数(不重复元素)为2。 基数估计就是在误差可接受的范围内，快速计算基数。</pre><p>常用命令：</p><pre class='md-fences mock-cm' style='display:block;position:relative'>PFADD   		新增元素
+PFCOUNT 		获取基数的估计值
+PFMERGE 		将多个 HyperLogLog 合并为一个 HyperLogLog</pre><p>命令演示</p><p> <img src='mdpic/p26.PNG' alt='p26' /></p><h5><a name='header-n173' class='md-header-anchor '></a>3.2 高级命令</h5><h6><a name='header-n174' class='md-header-anchor '></a>3.2.1 常用命令</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>keys  *	: 返回满足的所有键 ,可以模糊匹配
+exists ：是否存在指定的key，存在返回1，不存在返回0
+expire：设置某个key的过期时间
+del:删除某个key
+ttl：查看剩余时间,当key不存在时，返回 -2;存在但没有设置剩余生存时间时，返回 -1,否则，以秒为单位，返回 key 的剩余生存时间。
+persist：取消过去时间
+select :  选择数据库  数据库为0-15（默认一共16个数据库） s
+设计成多个数据库实际上是为了数据库安全和备份
+move key dbindex ： 将当前数据中的key转移到其他数据库
+randomkey：随机返回一个key
+rename：重命名key
+echo：打印命令
+dbsize：查看数据库的key数量
+info：查看数据库信息
+config get * 实时传储收到的请求，返回相关的配置	
+flushdb ：清空当前数据库
+flushall ：清空所有数据库</pre><p>命令演示</p><p> <img src='mdpic/p19.PNG' alt='p19' /></p><p></p><h6><a name='header-n182' class='md-header-anchor '></a>3.2.2 Redis事务</h6><p>Redis 事务可以一次执行多个命令， 并且带有以下两个重要的保证：</p><pre class='md-fences mock-cm' style='display:block;position:relative'>事务是一个单独的隔离操作：
+	事务中的所有命令都会序列化、按顺序地执行。
+	事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。
+事务是一个原子操作：
+	事务中的命令要么全部被执行，要么全部都不执行</pre><p>一个事务从开始到执行会经历以下三个阶段：</p><pre class='md-fences mock-cm' style='display:block;position:relative'>开始事务
+命令入队
+执行事务</pre><p>常用命令</p><pre class='md-fences mock-cm' style='display:block;position:relative'>MULTI   	开启事务
+EXEC    	执行事务
+DISCARD  	取消事务</pre><p>命令演示：</p><p> <img src='mdpic/p25.PNG' alt='p25' /></p><h6><a name='header-n196' class='md-header-anchor '></a>3.2.3 发布与订阅消息</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>Redis 发布订阅(pub/sub)是一种消息通信模式：发送者(pub)发送消息，订阅者(sub)接收消息。
+Redis 客户端可以订阅任意数量的频道。
+下图展示了频道 channel1 ， 以及订阅这个频道的三个客户端 —— client2 、 client5 和 client1 之间的关系</pre><p> <img src='mdpic/p20.PNG' alt='p20' /></p><pre class='md-fences mock-cm' style='display:block;position:relative'>当有新消息通过 PUBLISH 命令发送给频道 channel1 时， 这个消息就会被发送给订阅它的三个客户端：</pre><p> <img src='mdpic/p21.PNG' alt='p21' /></p><p>配置订阅和发布</p><p>常用命令</p><pre class='md-fences mock-cm' style='display:block;position:relative'>subscribe [频道] 进行订阅监听
+publish [频道 发布内容] 进行发布消息广播</pre><p>1、分别克隆额外的2个会话，重命名client1、client2 ，而且三个会话都运行redis的客户端<img src='mdpic/p22.PNG' alt='p22' /></p><p>2、分别在client1和client2进行订阅</p><p> <img src='mdpic/p23.PNG' alt='p23' /></p><p>3、进行消息发布 <img src='mdpic/p24.PNG' alt='p24' /></p><h6><a name='header-n216' class='md-header-anchor '></a>3.2.4 Redis 数据备份与恢复</h6><p>数据备份</p><pre class='md-fences mock-cm' style='display:block;position:relative'>Redis SAVE 命令用于创建当前数据库的备份。</pre><p>恢复数据</p><pre class='md-fences mock-cm' style='display:block;position:relative'>如果需要恢复数据，只需将备份文件 (dump.rdb) 移动到 redis 安装目录并启动服务即可。</pre><p> <img src='mdpic/p27.PNG' alt='p27' /></p><h6><a name='header-n225' class='md-header-anchor '></a>3.2.5 Redis 安全</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>因为redis速度相当快，所以一台比较好的服务器下，一个外部用户在一秒内可以进行15W次密码尝试，这意味着你需要设定非常强大的密码来防止暴力破解</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>可以通过 redis 的配置文件设置密码参数，这样客户端连接到 redis 服务就需要密码验证，这样可以让你的 redis 服务更安全</pre><p>常用命令</p><pre class='md-fences mock-cm' style='display:block;position:relative'> vim /opt/work/redis/conf/redis.conf		编辑配置文件，
+ 修改：#reqirepass foobared  为 ：    reqirepass  redis(你的密码)</pre><p> <img src='mdpic/p28.PNG' alt='p28' /></p><pre class='md-fences mock-cm' style='display:block;position:relative'>pkill redis-server   	关闭redis-server
+./bin/redis-server ./conf/redis.conf 	启动redis
+./bin/redis-cli 		打开客户端</pre><p> <img src='mdpic/p29.PNG' alt='p29' /></p><p></p><h4><a name='header-n238' class='md-header-anchor '></a>第四节 redis高级使用</h4><h5><a name='header-n239' class='md-header-anchor '></a>4.1 主从复制</h5><p>使用一台服务器进行模拟Redis的主从复制</p><h6><a name='header-n242' class='md-header-anchor '></a>4.1.1 概念</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>一般来说，要将Redis运用于工程项目中，只使用一台Redis是万万不能的，原因如下：
+从结构上，单个Redis服务器会发生单点故障，并且一台服务器需要处理所有的请求负载，压力较大；
+从容量上，单个Redis服务器内存容量有限，就算一台Redis服务器内容容量为256G，也不能将所有内容用作Redis存储内存，一般来说，单台Redis最大使用内存不应该超过20G。</pre><p>考虑如下一种场景：电子商务网站上的商品，一般都是一次上传，无数次浏览的，说专业点也就是”多读少写”。</p><p>对于这种场景，我们可以使如下这种架构：</p><p> <img src='mdpic/p30.PNG' alt='p30' /></p><pre class='md-fences mock-cm' style='display:block;position:relative'>如图所示，将一台Redis服务器作主库(Matser)，其他三台作为从库(Slave)，主库只负责写数据，每次有数据更新都将更新的数据同步到它所有的从库，而从库只负责读数据。
+这样一来，就有了两个好处：
+	读写分离，不仅可以提高服务器的负载能力并且可以根据读请求的规模自由增加或者减少从库的数量棒极了；
+	数据被复制成了了好几份，就算有一台机器出现故障，也可以使用其他机器的数据快速恢复。
+需要注意的是：在Redis主从模式中，一台主库可以拥有多个从库，但是一个从库只能隶属于一个主库。</pre><h6><a name='header-n251' class='md-header-anchor '></a>4.1.2 redis主从复制特点</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>1、Master可以拥有多个Slave；
+2、多个salve可以连接同一个Master，还可以链接到其他的slave
+3、主从复制不会阻塞Master，在同步数据时，master可以继续处理client请求
+4、提供系统的伸缩性。</pre><h6><a name='header-n253' class='md-header-anchor '></a>4.1.3 redis主从复制配置</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>在Redis中，要实现主从复制架构非常简单，只需要在从数据库的配置文件中加上如下命令即可：
+slaveof 主数据库地址  主数据库端口
+主数据库不需要任何配置。</pre><p>配置步骤：</p><p>1、重新安装一份redis,作为从库，拷贝redis.conf 并修改</p><pre class='md-fences mock-cm' style='display:block;position:relative'>端口号为6380
+设置slaveof  主库ip地址 端口号
+设置masterauth  主库密码</pre><p> <img src='mdpic/p31.PNG' alt='p31' /></p><p> <img src='mdpic/p36.PNG' alt='p36' /></p><p>2、启动从库</p><pre class='md-fences mock-cm' style='display:block;position:relative'>/opt/work/redisslave1/bin/redis-server /opt/work/redisslave1/bin/redis.conf </pre><p><img src='mdpic/p33.PNG' alt='p33' /></p><p>3、分别使用2个客户端连接主库和从库</p><p>拷贝连接会话，并重命名slave，打开客户端连接从库</p><p>在主库和从库的连接客户端中输入：</p><p>info replication</p><p>  <img src='mdpic/p34.PNG' alt='p34' /></p><p></p><p>4、测试数据的主从复制</p><p> <img src='mdpic/p37.PNG' alt='p37' />如果主库宕机，那么</p><pre class='md-fences mock-cm' style='display:block;position:relative'>如果主库宕机，那么就无法再继续写入数据</pre><h5><a name='header-n286' class='md-header-anchor '></a>4.2 哨兵模式</h5><h6><a name='header-n287' class='md-header-anchor '></a>4.2.1 概念</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>Redis-Sentinel（哨兵模式）是官方推荐的高可用解决方案，当redis在做master-slave的高可用方案时，假如master宕机了，redis本身（以及其很多客户端）都没有实现自动进行主备切换，而redis-sentinel本身也是独立运行的进程，可以部署在其他与redis集群可通讯的机器中监控redis集群。</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>有了主从复制的实现之后，我们如果想从服务器进行监控，那么在redis2.6以后提供了一个”哨兵“机制，并在2.8版本以后功能稳定起来。
+哨兵：顾名思义，就是监控Redis系统的运行状况</pre><p>哨兵模式的特点</p><pre class='md-fences mock-cm' style='display:block;position:relative'>1、不时地监控redis是否按照预期良好地运行;
+2、如果发现某个redis节点运行出现状况，能够通知另外一个进程(例如它的客户端);
+3、能够进行自动切换。当一个master节点不可用时，能够选举出master的多个slave(如果有超过一个slave的话)中的一个来作为新的master,其它的slave节点会将它所追随的master的地址改为被提升为master的slave的新地址。
+4、哨兵为客户端提供服务发现，客户端链接哨兵，哨兵提供当前master的地址然后提供服务，如果出现切换，也就是master挂了，哨兵会提供客户端一个新地址。</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>哨兵（sentinel）本身也是支持集群的
+很显然，单个哨兵会存在自己挂掉而无法监控整个集群的问题，所以哨兵也是支持集群的，通常用三台哨兵机器来监控一组redis集群。</pre><h6><a name='header-n294' class='md-header-anchor '></a>4.2.2 配置</h6><p>配置哨兵模式主要是防止主库宕机，所以本文档就在从库中进行配置哨兵模式</p><p>拷贝配置文件，并修改</p><p>命令：</p><pre class='md-fences mock-cm' style='display:block;position:relative'> cp /opt/work/redis-3.2.11/sentinel.conf /opt/work/redisslave1/bin/   拷贝哨兵的配置
+ vim /opt/work/redisslave1/bin/sentinel.conf   修改哨兵模式的配置文件</pre><p>配置解释</p><pre class='md-fences mock-cm' style='display:block;position:relative'>dir： 日志路径，根据自己的要求保存。
+sentinel  monitor  mymaster  10.0.31.144 6379   1  解释：#名称 #ip  #端口号 # 投票选举次数（即有多少篇就被选举为主，这里节点少，就配置为1）。		
+sentinel  down-after-millisecond mymaster 5000 解释：哨兵程序多久去监控一次集群，#默认 30s 检查一次，这里配置超时30000毫秒为宕机。
+sentinel  parallel-syncs mymaster 1 解释：有多少个从节点
+sentinel  failover-timeout mymaster 600000 解释：若哨兵在该配置值内未完成failover操作(即发生故障时，m/s切换)，本次failover失败
+sentinel  parallel-syncs mymaster 1 解释：有多少个从节点</pre><p> <img src='mdpic/p38.PNG' alt='p38' /></p><p>  <img src='mdpic/p40.PNG' alt='p40' /></p><h6><a name='header-n309' class='md-header-anchor '></a>4.2.3 启动</h6><pre class='md-fences mock-cm' style='display:block;position:relative'> /opt/work/redisslave1/bin/redis-server /opt/work/redisslave1/bin/sentinel.conf  --sentinel  
+ 启动哨兵模式
+ /opt/work/redis/bin/redis-cli -h 10.211.55.12 -p 26379 info sentinel</pre><p> <img src='mdpic/p39.PNG' alt='p39' /></p><p> <img src='mdpic/p41.PNG' alt='p41' /></p><h5><a name='header-n315' class='md-header-anchor '></a>4.3 持久化机制</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>Redis持久化存储支持两种方式：RDB和AOF。RDB一定时间取存储文件，AOF默认每秒去存储历史命令，官方建议两种方式同时使用
+没有持久化的redis和memcache一样，相当于一个纯内存的数据库</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>Redis是支持持久化的内存数据库，也就是说redis需要经常将内存中的数据同步到硬盘来保证持久化。</pre><h6><a name='header-n318' class='md-header-anchor '></a>4.3.1 RDB</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>RDB(snapshotting快照)是将数据写入一个临时文件，持久化结束后，用这个临时文件替换上次持久化的文件，达到数据恢复。
+优点：使用单独子进程来进行持久化，主进程不会进行任何IO操作，保证了redis的高性能
+缺点：RDB是间隔一段时间进行持久化，如果持久化之间redis发生故障，会发生数据丢失。所以这种方式更适合数据要求不严谨的时候</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>默认方式，将内存中以快照的方式写入到二进制文件中，默认为dump.rdb，可以通过配置设置自动做快照持久化的方式。我们可以配置redis在n秒内如果m个key修改，就自动做快照</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>vim /opt/work/redis/conf/redis.conf 修改配置文件
+RDB默认开启，redis.conf中的具体配置参数如下:
+save 900 1  #900秒内，超过1个key被修改，则发起快照保存
+save 300 10  #300秒内，超过10个key被修改，则发起快照保存
+save 60 10000  #60秒内，超过10000个key被修改，则发起快照保存
+dbfilename dump.rdb    持久化数据存储在本地的文件
+dir ./   持久化数据存储在本地的路径，如果是在/redis/redis-3.0.6/src下启动的redis-cli，则数据会存储在当前src目录下</pre><p> <img src='mdpic/p45.PNG' alt='p45' /></p><pre class='md-fences mock-cm' style='display:block;position:relative'>持久化过程：
+当满足save的条件时，比如更改了1个key，900s后会将数据写入临时文件，持久化完成后将临时文件替换旧的dump.rdb。（存储数据的节点是到触发时间时的的节点）
+使用RDB恢复数据：
+自动的持久化数据存储到dump.rdb后。实际只要重启redis服务即可完成（启动redis的server时会从dump.rdb中先同步数据）
+使用命令进行持久化save存储：
+./redis-cli -h ip -p port save
+./redis-cli -h ip -p port bgsave
+一个是在前台进行存储，一个是在后台进行存储。</pre><p> <img src='mdpic/p46.PNG' alt='p46' /></p><p></p><h6><a name='header-n329' class='md-header-anchor '></a>4.3.2 AOF</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>AOF(append-only file)是将执行过的指令记录下来，数据恢复时按照从前到后的顺序再将指令执行一遍，实现数据恢复
+优点：可以保持更高的数据完整性，如果设置追加file的时间是1s，如果redis发生故障，最多会丢失1s的数据；且如果日志写入不完整支持redis-check-aof来进行日志修复；AOF文件没被rewrite之前（文件过大时会对命令进行合并重写），可以删除其中的某些命令（比如误操作的flushall）。
+缺点：AOF文件比RDB文件大，且恢复速度慢。</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>类似于mysql日志，由于快照方式是在一定时间间隔做一次，所以可能发生redis意外宕机的情况就会丢失最后一次快照后的所有被修改的数据，aof比快照方式有更好的持久化型，是由于redis在使用aof时，redis会将每一个收到的写命令都通过write函数追加到命令中，在redis重新启动时会重新执行文件中保存的写命令在内存中重建这个数据库的内容，这个文件在redis/bin目录下，appendonly.aof。aof不是立即写到硬盘上，可以通过配置文件修改强制写到硬盘中。</pre><p>修改配置</p><pre class='md-fences mock-cm' style='display:block;position:relative'>appendonly yes //启动aof持久化 ,持久化有三种方式：
+#appendfsync always //收到写命令就立即写入到磁盘，效率最慢，但是保证完整的持久化（最常用）
+#appendfsync everysec //每秒写一次硬盘，在性能和持久化方面做了很好的这种	 
+#appendfsync no  //完全依赖os，性能最好，持久化没保证。</pre><p> <img src='mdpic/p47.PNG' alt='p47' /></p><pre class='md-fences mock-cm' style='display:block;position:relative'>重启redis发现bin/目录下多了一个appendonly.aof</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>提示：开启aof后之前的rdb模式就时效了，且之前的数据会被清空。</pre><p></p><p></p></div>
+</body>
+</html>

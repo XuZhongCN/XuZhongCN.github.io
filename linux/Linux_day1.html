@@ -1,0 +1,606 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>Linux_day1.md</title><link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}.CodeMirror { height: auto; }
+.CodeMirror-scroll { overflow-y: hidden; overflow-x: auto; }
+.CodeMirror-lines { padding: 4px 0px; }
+.CodeMirror pre { }
+.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler { background-color: white; }
+.CodeMirror-gutters { border-right: 1px solid rgb(221, 221, 221); background-color: rgb(247, 247, 247); white-space: nowrap; }
+.CodeMirror-linenumbers { }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.CodeMirror div.CodeMirror-cursor { border-left: 1px solid black; z-index: 3; }
+.CodeMirror div.CodeMirror-secondarycursor { border-left: 1px solid silver; }
+.CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor { width: auto; border: 0px; background: rgb(119, 238, 119); z-index: 1; }
+.CodeMirror div.CodeMirror-cursor.CodeMirror-overwrite { }
+.cm-tab { display: inline-block; }
+.cm-s-typora-default .cm-header, .cm-s-typora-default .cm-property { color: rgb(217, 79, 138); }
+.cm-s-typora-default pre.cm-header1:not(.cm-atom) :not(.cm-overlay) { font-size: 2rem; line-height: 2rem; }
+.cm-s-typora-default pre.cm-header2:not(.cm-atom) :not(.cm-overlay) { font-size: 1.4rem; line-height: 1.4rem; }
+.cm-s-typora-default .cm-atom, .cm-s-typora-default .cm-number { color: rgb(149, 132, 134); }
+.cm-s-typora-default .cm-table-row, .cm-s-typora-default .cm-block-start { font-family: monospace; }
+.cm-s-typora-default .cm-comment, .cm-s-typora-default .cm-code { color: rgb(74, 90, 159); font-family: monospace; }
+.cm-s-typora-default .cm-tag { color: rgb(169, 68, 66); }
+.cm-s-typora-default .cm-string { color: rgb(126, 134, 169); }
+.cm-s-typora-default .cm-link { color: rgb(196, 122, 15); text-decoration: underline; }
+.cm-s-typora-default .cm-variable-2, .cm-s-typora-default .cm-variable-1 { color: inherit; }
+.cm-s-typora-default .cm-overlay { font-family: monospace; }
+.CodeMirror.cm-s-typora-default div.CodeMirror-cursor { border-left: 3px solid rgb(228, 98, 154); }
+.cm-s-typora-default .CodeMirror-activeline-background { left: -60px; right: -30px; background: rgba(204, 204, 204, 0.2); }
+.cm-s-typora-default .CodeMirror-gutters { border-right: none; background-color: inherit; }
+.cm-s-typora-default .cm-trailing-space-new-line::after, .cm-startspace::after, .cm-starttab .cm-tab::after { content: "•"; position: absolute; left: 0px; opacity: 0; font-family: LetterGothicStd, monospace; }
+.os-windows .cm-startspace::after, .os-windows .cm-starttab .cm-tab::after { left: -0.1em; }
+.cm-starttab .cm-tab::after { content: " "; }
+.cm-startspace, .cm-tab, .cm-starttab, .cm-trailing-space-a, .cm-trailing-space-b, .cm-trailing-space-new-line { font-family: monospace; position: relative; }
+.cm-s-typora-default .cm-trailing-space-new-line::after { content: "↓"; opacity: 0.3; }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: black; }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-property { color: black; }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: blue; }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: bold; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: rgb(255, 0, 0); }
+.cm-invalidchar { color: rgb(255, 0, 0); }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background: inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { margin-bottom: -30px; margin-right: -30px; padding-bottom: 30px; padding-right: 30px; height: 100%; outline: none; position: relative; box-sizing: content-box; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler { position: absolute; z-index: 6; display: none; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow-x: hidden; overflow-y: scroll; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow-y: hidden; overflow-x: scroll; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 30px; z-index: 3; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; background: none !important; border: none !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-radius: 0px; border-width: 0px; background: transparent; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; word-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; }
+.CodeMirror-wrap pre { word-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right: 30px solid transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-widget { }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.CodeMirror-selected { background: rgb(217, 217, 217); }
+.CodeMirror-focused .CodeMirror-selected { background: rgb(215, 212, 240); }
+.cm-searching { background: rgba(255, 255, 0, 0.4); }
+.CodeMirror span { }
+@media print {
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+.CodeMirror-lint-markers { width: 16px; }
+.CodeMirror-lint-tooltip { background-color: infobackground; border: 1px solid black; border-radius: 4px; color: infotext; font-family: monospace; overflow: hidden; padding: 2px 5px; position: fixed; white-space: pre-wrap; z-index: 10000; max-width: 600px; opacity: 0; transition: opacity 0.4s; font-size: 0.8em; }
+.CodeMirror-lint-mark-error, .CodeMirror-lint-mark-warning { background-position: left bottom; background-repeat: repeat-x; }
+.CodeMirror-lint-mark-error { background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sJDw4cOCW1/KIAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAHElEQVQI12NggIL/DAz/GdA5/xkY/qPKMDAwAADLZwf5rvm+LQAAAABJRU5ErkJggg=="); }
+.CodeMirror-lint-marker-error, .CodeMirror-lint-marker-warning { background-position: center center; background-repeat: no-repeat; cursor: pointer; display: inline-block; height: 16px; width: 16px; vertical-align: middle; position: relative; }
+.CodeMirror-lint-message-error, .CodeMirror-lint-message-warning { padding-left: 18px; background-position: left top; background-repeat: no-repeat; }
+.CodeMirror-lint-marker-error, .CodeMirror-lint-message-error { background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAHlBMVEW7AAC7AACxAAC7AAC7AAAAAAC4AAC5AAD///+7AAAUdclpAAAABnRSTlMXnORSiwCK0ZKSAAAATUlEQVR42mWPOQ7AQAgDuQLx/z8csYRmPRIFIwRGnosRrpamvkKi0FTIiMASR3hhKW+hAN6/tIWhu9PDWiTGNEkTtIOucA5Oyr9ckPgAWm0GPBog6v4AAAAASUVORK5CYII="); }
+.CodeMirror-lint-marker-warning, .CodeMirror-lint-message-warning { background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAANlBMVEX/uwDvrwD/uwD/uwD/uwD/uwD/uwD/uwD/uwD6twD/uwAAAADurwD2tQD7uAD+ugAAAAD/uwDhmeTRAAAADHRSTlMJ8mN1EYcbmiixgACm7WbuAAAAVklEQVR42n3PUQqAIBBFUU1LLc3u/jdbOJoW1P08DA9Gba8+YWJ6gNJoNYIBzAA2chBth5kLmG9YUoG0NHAUwFXwO9LuBQL1giCQb8gC9Oro2vp5rncCIY8L8uEx5ZkAAAAASUVORK5CYII="); }
+.CodeMirror-lint-marker-multiple { background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAMAAADzjKfhAAAACVBMVEUAAAAAAAC/v7914kyHAAAAAXRSTlMAQObYZgAAACNJREFUeNo1ioEJAAAIwmz/H90iFFSGJgFMe3gaLZ0od+9/AQZ0ADosbYraAAAAAElFTkSuQmCC"); background-repeat: no-repeat; background-position: right bottom; width: 100%; height: 100%; }
+
+
+:root { --bg-color: #ffffff; --text-color: #333333; --code-block-bg-color: inherit; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { background: rgb(181, 214, 252); text-shadow: none; }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; padding-bottom: 70px; white-space: pre-wrap; overflow-x: visible; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+.typora-export #write { margin: 0px auto; }
+#write > p:first-child, #write > ul:first-child, #write > ol:first-child, #write > pre:first-child, #write > blockquote:first-child, #write > div:first-child, #write > table:first-child { margin-top: 30px; }
+#write li > table:first-child { margin-top: -20px; }
+img { max-width: 100%; vertical-align: middle; }
+input, button, select, textarea { color: inherit; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+::before, ::after, * { box-sizing: border-box; }
+#write p, #write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write div, #write pre { width: inherit; }
+#write p, #write h1, #write h2, #write h3, #write h4, #write h5, #write h6 { position: relative; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+p { -webkit-margin-before: 1rem; -webkit-margin-after: 1rem; -webkit-margin-start: 0px; -webkit-margin-end: 0px; }
+.typora-export p { white-space: normal; }
+.mathjax-block { margin-top: 0px; margin-bottom: 0px; -webkit-margin-before: 0rem; -webkit-margin-after: 0rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: bold; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; margin: 4px 0px 0px; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 80px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+pre { white-space: pre-wrap; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: var(--code-block-bg-color); position: relative !important; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+.md-fences .CodeMirror.CodeMirror-wrap { top: -1.6em; margin-bottom: -1.6em; }
+.md-fences.mock-cm { white-space: pre-wrap; }
+.show-fences-line-number .md-fences { padding-left: 0px; }
+.show-fences-line-number .md-fences.mock-cm { padding-left: 40px; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; padding-top: 1em; padding-bottom: 1em; }
+.footnotes + .footnotes { margin-top: -1em; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: transparent; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: normal; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li p, li .mathjax-block { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; }
+@media print {
+  html, body { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  h1, h2, h3, h4, h5, h6 { break-after: avoid-page; orphans: 2; }
+  p { orphans: 4; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 1cm; padding-right: 1cm; padding-bottom: 0px; break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  @page { margin: 20mm 0mm; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 2.86rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p .md-image:only-child { display: inline-block; width: 100%; text-align: center; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.mathjax-block { white-space: pre; overflow: hidden; width: 100%; }
+p + .mathjax-block { margin-top: -1.143rem; }
+.mathjax-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: none; box-shadow: none; }
+.task-list { list-style-type: none; }
+.task-list-item { position: relative; padding-left: 1em; }
+.task-list-item input { position: absolute; top: 0px; left: 0px; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc::after, .md-toc-content::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); text-decoration: none; }
+.md-toc-inner:hover { }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: bold; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+.md-tag { opacity: 0.5; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: monospace; }
+code { text-align: left; }
+h1 .md-tag, h2 .md-tag, h3 .md-tag, h4 .md-tag, h5 .md-tag, h6 .md-tag { font-weight: initial; opacity: 0.35; }
+a.md-print-anchor { border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: none !important; background: transparent !important; text-decoration: initial !important; text-shadow: initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.mathjax-block .MathJax_SVG_Display { text-align: center; margin: 1em 0em; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: monospace; }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: normal; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; }
+
+
+:root { --side-bar-bg-color: #fafafa; --control-text-color: #777; }
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: normal; src: local("Open Sans Regular"), url("./github/400.woff") format("woff"); }
+@font-face { font-family: "Open Sans"; font-style: italic; font-weight: normal; src: local("Open Sans Italic"), url("./github/400i.woff") format("woff"); }
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: bold; src: local("Open Sans Bold"), url("./github/700.woff") format("woff"); }
+@font-face { font-family: "Open Sans"; font-style: italic; font-weight: bold; src: local("Open Sans Bold Italic"), url("./github/700i.woff") format("woff"); }
+html { font-size: 16px; }
+body { font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.6; }
+#write { max-width: 860px; margin: 0px auto; padding: 20px 30px 100px; }
+#write > ul:first-child, #write > ol:first-child { margin-top: 30px; }
+body > :first-child { margin-top: 0px !important; }
+body > :last-child { margin-bottom: 0px !important; }
+a { color: rgb(65, 131, 196); }
+h1, h2, h3, h4, h5, h6 { position: relative; margin-top: 1rem; margin-bottom: 1rem; font-weight: bold; line-height: 1.4; cursor: text; }
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor { text-decoration: none; }
+h1 tt, h1 code { font-size: inherit; }
+h2 tt, h2 code { font-size: inherit; }
+h3 tt, h3 code { font-size: inherit; }
+h4 tt, h4 code { font-size: inherit; }
+h5 tt, h5 code { font-size: inherit; }
+h6 tt, h6 code { font-size: inherit; }
+h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom: 1px solid rgb(238, 238, 238); }
+h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom: 1px solid rgb(238, 238, 238); }
+h3 { font-size: 1.5em; line-height: 1.43; }
+h4 { font-size: 1.25em; }
+h5 { font-size: 1em; }
+h6 { font-size: 1em; color: rgb(119, 119, 119); }
+p, blockquote, ul, ol, dl, table { margin: 0.8em 0px; }
+li > ol, li > ul { margin: 0px; }
+hr { height: 4px; padding: 0px; margin: 16px 0px; background-color: rgb(231, 231, 231); border-width: 0px 0px 1px; border-style: none none solid; border-top-color: initial; border-right-color: initial; border-left-color: initial; border-image: initial; overflow: hidden; box-sizing: content-box; border-bottom-color: rgb(221, 221, 221); }
+body > h2:first-child { margin-top: 0px; padding-top: 0px; }
+body > h1:first-child { margin-top: 0px; padding-top: 0px; }
+body > h1:first-child + h2 { margin-top: 0px; padding-top: 0px; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child { margin-top: 0px; padding-top: 0px; }
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 { margin-top: 0px; padding-top: 0px; }
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p { margin-top: 0px; }
+li p.first { display: inline-block; }
+ul, ol { padding-left: 30px; }
+ul:first-child, ol:first-child { margin-top: 0px; }
+ul:last-child, ol:last-child { margin-bottom: 0px; }
+blockquote { border-left: 4px solid rgb(221, 221, 221); padding: 0px 15px; color: rgb(119, 119, 119); }
+blockquote blockquote { padding-right: 0px; }
+table { padding: 0px; word-break: initial; }
+table tr { border-top: 1px solid rgb(204, 204, 204); margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 1px solid rgb(204, 204, 204); text-align: left; margin: 0px; padding: 6px 13px; }
+table tr td { border: 1px solid rgb(204, 204, 204); text-align: left; margin: 0px; padding: 6px 13px; }
+table tr th:first-child, table tr td:first-child { margin-top: 0px; }
+table tr th:last-child, table tr td:last-child { margin-bottom: 0px; }
+.CodeMirror-gutters { border-right: 1px solid rgb(221, 221, 221); }
+.md-fences, code, tt { border: 1px solid rgb(221, 221, 221); background-color: rgb(248, 248, 248); border-radius: 3px; font-family: Consolas, "Liberation Mono", Courier, monospace; padding: 2px 4px 0px; font-size: 0.9em; }
+.md-fences { margin-bottom: 15px; margin-top: 15px; padding: 8px 1em 6px; }
+.task-list { padding-left: 0px; }
+.task-list-item { padding-left: 32px; }
+.task-list-item input { top: 3px; left: 8px; }
+@media screen and (min-width: 914px) {
+}
+@media print {
+  html { font-size: 13px; }
+  table, pre { break-inside: avoid; }
+  pre { word-wrap: break-word; }
+}
+.md-fences { background-color: rgb(248, 248, 248); }
+#write pre.md-meta-block { padding: 1rem; font-size: 85%; line-height: 1.45; background-color: rgb(247, 247, 247); border: 0px; border-radius: 3px; color: rgb(119, 119, 119); margin-top: 0px !important; }
+.mathjax-block > .code-tooltip { bottom: 0.375rem; }
+#write > h3.md-focus::before { left: -1.5625rem; top: 0.375rem; }
+#write > h4.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
+#write > h5.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
+#write > h6.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
+.md-image > .md-meta { border: 1px solid rgb(221, 221, 221); border-radius: 3px; font-family: Consolas, "Liberation Mono", Courier, monospace; padding: 2px 4px 0px; font-size: 0.9em; color: inherit; }
+.md-tag { color: inherit; }
+.md-toc { margin-top: 20px; padding-bottom: 20px; }
+.sidebar-tabs { border-bottom: none; }
+#typora-quick-open { border: 1px solid rgb(221, 221, 221); background-color: rgb(248, 248, 248); }
+#typora-quick-open-item { background-color: rgb(250, 250, 250); border-color: rgb(254, 254, 254) rgb(229, 229, 229) rgb(229, 229, 229) rgb(238, 238, 238); border-style: solid; border-width: 1px; }
+#md-notification::before { top: 10px; }
+.on-focus-mode blockquote { border-left-color: rgba(85, 85, 85, 0.12); }
+header, .context-menu, .megamenu-content, footer { font-family: "Segoe UI", Arial, sans-serif; }
+.file-node-content:hover .file-node-icon, .file-node-content:hover .file-node-open-state { visibility: visible; }
+.mac-seamless-mode #typora-sidebar { background-color: var(--side-bar-bg-color); }
+.md-lang { color: rgb(180, 101, 77); }
+
+
+
+
+
+
+</style>
+</head>
+<body class='typora-export' >
+<div  id='write'  class = 'is-node'><h3><a name='header-n0' class='md-header-anchor '></a>Linux</h3><hr /><p>Linux大纲版本：CentOS6.8</p><p>下载路径：</p><h4><a name='header-n8' class='md-header-anchor '></a>第一节 Linux简介和安装</h4><h5><a name='header-n9' class='md-header-anchor '></a>1.1 基础简介</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>Linux内核最初只是由芬兰人李纳斯·托瓦兹（Linus Torvalds）在赫尔辛基大学上学时出于个人爱好而编写的。
+Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。
+Linux能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>Linux操作系统诞生于1991 年10 月5 日（这是第一次正式向外公布时间）。Linux存在着许多不同的Linux版本，但它们都使用了Linux内核。Linux可安装在各种计算机硬件设备中，比如手机、平板电脑、路由器、视频游戏控制台、台式计算机、大型机和超级计算机</pre><h5><a name='header-n12' class='md-header-anchor '></a>1.2 发行版说明</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>Linux的发行版说简单点就是将Linux内核与应用软件做一个打包。
+目前市面上较知名的发行版有：Ubuntu、RedHat、CentOS、Debian、Fedora、SuSE、OpenSUSE、TurboLinux、BluePoint、RedFlag、Xterm、SlackWare等</pre><h5><a name='header-n14' class='md-header-anchor '></a>1.3 应用领域</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>今天各种场合都有使用各种Linux发行版，从嵌入式设备到超级计算机，并且在服务器领域确定了地位，通常服务器使用LAMJ（Linux + Apache + MySQL + java）或LNMJ（Linux + Nginx+ MySQL + java）组合。
+目前Linux不仅在家庭与企业中使用，并且在政府中也很受欢迎</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>巴西联邦政府由于支持Linux而世界闻名。
+有新闻报道俄罗斯军队自己制造的Linux发布版的，做为G.H.ost项目已经取得成果.
+印度的Kerala联邦计划在向全联邦的高中推广使用Linux。
+中华人民共和国为取得技术独立，在龙芯过程中排他性地使用Linux。
+在西班牙的一些地区开发了自己的Linux发布版，并且在政府与教育领域广泛使用，如Extremadura地区的gnuLinEx和Andalusia地区的Guadalinex。
+葡萄牙同样使用自己的Linux发布版Caixa Mágica，用于Magalh?es笔记本电脑和e-escola政府软件。
+法国和德国同样开始逐步采用Linux。</pre><h5><a name='header-n17' class='md-header-anchor '></a>1.4 Linux和Windows的区别</h5><table><thead><tr><th style='text-align:center;' >比较</th><th style='text-align:center;' >Windows</th><th style='text-align:center;' >Linux</th></tr></thead><tbody><tr><td style='text-align:center;' >界面</td><td style='text-align:center;' >界面统一，外壳程序固定所有Windows程序菜单几乎一致，快捷键也几乎相同</td><td style='text-align:center;' >图形界面风格依发布版不同而不同，可能互不兼容。GNU/Linux的终端机是从UNIX传承下来，基本命令和操作方法也几乎一致。</td></tr><tr><td style='text-align:center;' >驱动程序</td><td style='text-align:center;' >驱动程序丰富，版本更新频繁。默认安装程序里面一般包含有该版本发布时流行的硬件驱动程序，之后所出的新硬件驱动依赖于硬件厂商提供。对于一些老硬件，如果没有了原配的驱动有时很难支持。另外，有时硬件厂商未提供所需版本的Windows下的驱动，也会比较头痛。</td><td style='text-align:center;' >由志愿者开发，由Linux核心开发小组发布，很多硬件厂商基于版权考虑并未提供驱动程序，尽管多数无需手动安装，但是涉及安装则相对复杂，使得新用户面对驱动程序问题（是否存在和安装方法）会一筹莫展。但是在开源开发模式下，许多老硬件尽管在Windows下很难支持的也容易找到驱动。HP、Intel、AMD等硬件厂商逐步不同程度支持开源驱动，问题正在得到缓解。</td></tr><tr><td style='text-align:center;' >使用</td><td style='text-align:center;' >使用比较简单，容易入门。图形化界面对没有计算机背景知识的用户使用十分有利。</td><td style='text-align:center;' >图形界面使用简单，容易入门。文字界面，需要学习才能掌握。</td></tr><tr><td style='text-align:center;' >学习</td><td style='text-align:center;' >系统构造复杂、变化频繁，且知识、技能淘汰快，深入学习困难。</td><td style='text-align:center;' >系统构造简单、稳定，且知识、技能传承性好，深入学习相对容易。</td></tr><tr><td style='text-align:center;' >软件</td><td style='text-align:center;' >每一种特定功能可能都需要商业软件的支持，需要购买相应的授权。</td><td style='text-align:center;' >大部分软件都可以自由获取，同样功能的软件选择较少。</td></tr></tbody></table><h5><a name='header-n43' class='md-header-anchor '></a>1.5 Linux的安装</h5><p>请参考Linux安装文档</p><h5><a name='header-n46' class='md-header-anchor '></a>1.6 远程登录</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>默认root用户没有密码，可以修改密码，切换用户，输入用户名：root，点击登录，打开终端命令，输入：
+password 
+接着输入新密码，再确认输入即可。
+如果需要进行远程登录，需要设置防火墙过滤22端口，当然也可以关闭防火墙
+</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>还有远程连接被拒绝，需要检查sshd是否开启
+命令：
+service sshd status   查看sshd的状态
+service sshd start    启动sshd
+service sshd stop     关闭
+chkconfig | grep sshd   查看sshd的开启状态
+chkconfig sshd on		开机自启
+
+再进行远程连接的时候，需要启动sshd</pre><h4><a name='header-n49' class='md-header-anchor '></a>第二节 Linux常用命令</h4><h5><a name='header-n50' class='md-header-anchor '></a>2.1 文件管理</h5><h6><a name='header-n51' class='md-header-anchor '></a>2.1.1 ls</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>ls(list)是一个非常有用的命令，用来显示当前目录下的内容。配合参数的使用，能以不同的方式显示目录内容。    
+格式：ls[参数] [路径或文件名]		
+常用：在linux中以.开头的文件都是隐藏的文件ls	 	
+ls -a  显示所有文件或目录（包含隐藏的文件）		
+ls -l  缩写成ll##</pre><p> <img src='mdpic/p1.PNG' alt='p1' /></p><h6><a name='header-n55' class='md-header-anchor '></a>2.1.2 ll</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>ls -l或者 ll 显示一个文件的属性以及文件所属的用户和组。
+上述的 drwxr -xr-x 2 root root 4096 Nov 3 12:56 tt的意思：
+一个目录对应的所有者具有读写执行的权限，所有者的同组成员具有读和执行的权限，其它用户拥有读和执行的权限,2个连接root用户拥有，群组是root，大小为4096字节，最后修改时间 目录名称tt
+
+一共有7列信息, 分别为: [权限], [连结数], [拥有者], [群组], [大小], [最后修改时间], [名字]</pre><p> <img src='mdpic/p22.png' alt='p22' /></p><p>从左至右用1-10这些数字来表示:</p><pre class='md-fences mock-cm' style='display:block;position:relative'>1、确定文件类型
+	当为[ d ]则是目录
+	当为[ - ]则是文件；
+	若是[ l ]则表示为链接文档(link file)；
+	若是[ b ]则表示为装置文件里面的可供储存的接口设备(可随机存取装置)；
+	若是[ c ]则表示为装置文件里面的串行端口设备，例如键盘、鼠标(一次性读取装置)</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>2、确定属主（该文件的所有者）拥有该文件的权限
+[ r ]代表可读(read)、[ w ]代表可写(write)、[ x ]代表可执行(execute),要注意的是，这三个权限的位置不会改变，如果没有权限，就会出现减号[ - ]而已</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>3、确定属组（所有者的同组用户）拥有该文件的权限
+4、确定其他用户拥有该文件的权限</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>其中，第1、4、7位表示读权限，如果用&quot;r&quot;字符表示，则有读权限，如果用&quot;-&quot;字符表示，则没有读权限；
+第2、5、8位表示写权限，如果用&quot;w&quot;字符表示，则有写权限，如果用&quot;-&quot;字符表示没有写权限；第3、6、9位表示可执行权限，如果用&quot;x&quot;字符表示，则有执行权限，如果用&quot;-&quot;字符表示，则没有执行权限。</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>5、链接数
+6、文件所有者
+7、文件所属组
+8、文件字节大小
+9、文件最后修改日期
+10、文件名</pre><h6><a name='header-n66' class='md-header-anchor '></a>2.1.3 cd</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>cd切换目录
+	cd /usr	切换到usr目录
+	cd ..	切换到上一层目录
+	cd /	切换到系统根目录
+	cd ~	切换到用户主目录
+	cd -	切换到上一个所在目</pre><p> <img src='mdpic/p4.PNG' alt='p4' /></p><p>使用命令：cd / 回到根目录</p><pre class='md-fences mock-cm' style='display:block;position:relative'>使用cd /或者 ls /都可以回到根目录</pre><p> <img src='mdpic/p5.PNG' alt='p5' /></p><p> <img src='mdpic/p5.jpg' alt='p5' /></p><pre class='md-fences mock-cm' style='display:block;position:relative'>/bin：是Binary的缩写, 这个目录存放着最经常使用的命令。
+/boot：存放的是启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件。
+/dev ：是Device(设备)的缩写, 该目录下存放的是Linux的外部设备，在Linux中访问设备的方式和访问文件的方式是相同的。
+/etc：用来存放所有的系统管理所需要的配置文件和子目录。
+/home：用户的主目录，在Linux中，每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的。
+/lib：放着系统最基本的动态连接共享库，其作用类似于Windows里的DLL文件。几乎所有的应用程序都需要用到这些共享库。
+/lost+found：这个目录一般情况下是空的，当系统非法关机后，这里就存放了一些文件。
+/media：linux系统会自动识别一些设备，例如U盘、光驱等等，当识别后，linux会把识别的设备挂载到这个目录下。
+/mnt：系统提供该目录是为了让用户临时挂载别的文件系统的，我们可以将光驱挂载在/mnt/上，然后进入该目录就可以查看光驱里的内容了。
+/opt：主机额外安装软件所摆放的目录。比如你安装一个ORACLE数据库则就可以放到这个目录下。默认是空的。
+/proc：是一个虚拟的目录，它是系统内存的映射，我们可以通过直接访问这个目录来获取系统信息。
+/root：为系统管理员，也称作超级权限者的用户主目录。
+/sbin：s就是Super User的意思，这里存放的是系统管理员使用的系统管理程序。
+/selinux：是Redhat/CentOS所特有的目录，Selinux是一个安全机制，类似于windows的防火墙，但是这套机制比较复杂，这个目录就是存放selinux相关的文件的。
+/srv：存放一些服务启动之后需要提取的数据。
+/sys：linux2.6内核的一个很大的变化。该目录下安装了2.6内核中新出现的一个文件系统 sysfs，sysfs文件系统集成了下面3种文件系统的信息：针对进程信息的proc文件系统、针对设备的devfs文件系统以及针对伪终端的devpts文件系统。该文件系统是内核设备树的一个直观反映。当一个内核对象被创建的时候，对应的文件和目录也在内核对象子系统中被创建。
+/tmp：是用来存放一些临时文件的。
+/usr：用户的很多应用程序和文件都放在这个目录下，类似于windows下的program files目录。
+/usr/bin：系统用户使用的应用程序。
+/usr/sbin：超级用户使用的比较高级的管理程序和系统守护程序。
+/usr/src：内核源代码默认的放置目录。
+/var：这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。包括各种日志文件</pre><h6><a name='header-n78' class='md-header-anchor '></a>2.1.4 pwd</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>pwd：显示目前的目录</pre><h6><a name='header-n80' class='md-header-anchor '></a>2.1.5 mkdir</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>mkdir：创建一个新的目录
+mkdir a 创建目录a
+mkdir -p b/c/d 创建所有目录</pre><p></p><p> <img src='mdpic/p6.PNG' alt='p6' /></p><p></p><h6><a name='header-n88' class='md-header-anchor '></a>2.1.6 rmdir</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>rmdir：删除一个空的目录
+rmdir d 删除目录
+注意只能删除空目录</pre><h6><a name='header-n90' class='md-header-anchor '></a>2.1.7 vi&amp;vim</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>vi: 创建文件或编辑文件
+vi a.txt 创建文件a.txt并进入文档，按下a或者i或者o进入编辑模式，内容写完之后，按下esc键，然后输入命令：
+:wq 保存并退出
+注意必须要使用:
+在Linux下一般使用vi编辑器来编辑文件。vi既可以查看文件也可以编辑文件。
+三种模式：命令行、插入、底行模式。切换到命令行模式：按Esc键；
+切换到插入模式：按 i 、o、a键;
+  i 在当前位置生前插入
+  I 在当前行首插入
+  a 在当前位置后插入
+  A 在当前行尾插入
+  o 在当前行之后插入一行
+  O 在当前行之前插入一行
+</pre><h6><a name='header-n92' class='md-header-anchor '></a>2.1.8 cat</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>cat用于显示文件的内容。格式：cat[参数]&lt;文件名&gt;
+cat /etc/yum.conf
+重定向
+cat /root/222.txt  &gt;123.txt 获取222的内容然后写入到123.txt中,会覆盖原始内容
+cat /root/222.txt  &gt;&gt;123.txt  同上,但是是追加内容 不是覆盖
+cat 111 &gt;123.txt 直接像123输出内容</pre><p> <img src='mdpic/p7.PNG' alt='p7' /></p><h6><a name='header-n96' class='md-header-anchor '></a>2.1.9 more和less和tail</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>more一般用于要显示的内容会超过一个画面长度的情况,按空格键显示下一个画面。		回车显示下一行内容。按 q 键退出查看。
+less用法和more类似，不同的是less可以通过PgUp、PgDn键来控制
+tail命令是在实际使用过程中使用非常多的一个命令，它的功能是：用于显示文件后几行的内容。
+more /etc/yum.conf
+less /etc/yum.conf
+tail -10 /etc/yum.conf  显示后10行数据
+tail -f catalina.log   动态查看日志(*****) ctrl+c 关闭</pre><h6><a name='header-n98' class='md-header-anchor '></a>2.1.10 mv</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>mv移动或者重命名
+mv a.txt b.txt 将a.txt重命名为b.txt
+mv c.txt /root/b/ 将c.txt复制到b目录下</pre><p> <img src='mdpic/p9.PNG' alt='p9' /></p><h6><a name='header-n102' class='md-header-anchor '></a>2.1.11 rm</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>rm删除文件,用法：rm [选项]... 文件...	
+rm a.txt 		删除a.txt文件,删除需要用户确认
+rm -f a.txt		不询问，直接删除rm 删除目录		
+rm -r a    		递归删除不询问递归删除（慎用）		
+rm -rf  a    	不询问递归删除		
+rm -rf *      	删除所有文件		
+rm -rf /*       自杀</pre><h6><a name='header-n104' class='md-header-anchor '></a>2.1.12 tar</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>tar命令位于/bin目录下，它能够将用户所指定的文件或目录打包成一个文件，但不做压缩
+一般Linux上常用的压缩方式是选用tar将许多文件打包成一个文件，再以gzip压缩命令压缩成xxx.tar.gz(或称为xxx.tgz)的文件
+格式：tar [参数] 文件
+常用参数：
+	-c：创建一个新tar文件
+	-v：显示运行过程的信息
+	-f：指定文件名
+	-z：调用gzip压缩命令进行压缩
+	-t：查看压缩文件的内容
+	-x：解开tar文件
+命令：
+tar -cvf test1.tar ./* 			将当前目录下的所有文件打包为test1.tar
+tar -cvf test2.tar  b.txt 		将指定文件打包到test2.tar
+tar -zcvf test3.tar.gz  ./*  将当前目录下的所有文件打包并且压缩到test3.tar.gz
+tar -xvf  test1.tar  解压到当前目录
+tar -xvf  test3.tar.gz -C aaa  将文件解压到 aaa目录</pre><h6><a name='header-n106' class='md-header-anchor '></a>2.1.13 grep</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>grep:查找符合条件的字符串。用法: grep [选项]... PATTERN [FILE]..
+命令:
+grep str b.txt 			在文件中查找str			
+grep str b.txt –color 	高亮显示
+</pre><h6><a name='header-n108' class='md-header-anchor '></a>2.1.14 管道|</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>将一个命令的输出结果作为另外一个命令的输入
+	ps 显示进程
+	ps -ef显示所有进程
+	ps -ef | grep ssh  在所有的进程中搜索和ssh相关的</pre><p></p><h5><a name='header-n112' class='md-header-anchor '></a>2.2 用户管理</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>Linux系统是一个多用户多任务的分时操作系统，任何一个要使用系统资源的用户，都必须首先向系统管理员申请一个账号，然后以这个账号的身份进入系统。
+用户的账号一方面可以帮助系统管理员对使用系统的用户进行跟踪，并控制他们对系统资源的访问；另一方面也可以帮助用户组织文件，并为用户提供安全性保护。
+每个用户账号都拥有一个惟一的用户名和各自的口令。
+用户在登录时键入正确的用户名和口令后，就能够进入系统和自己的主目录。
+实现用户账号的管理，要完成的工作主要有如下几个方面：
+用户账号的添加、删除与修改。
+用户口令的管理。
+用户组的管理。</pre><h6><a name='header-n114' class='md-header-anchor '></a>2.2.1 useradd</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>useradd新增用户
+格式：useradd [参数] 用户名称
+常用参数：
+    -c comment 指定一段注释性描述。
+    -d 目录 指定用户主目录，如果此目录不存在，则同时使用-m选项，可以创建主目录。
+    -g 用户组 指定用户所属的用户组。
+    -G 用户组，用户组 指定用户所属的附加组。
+    -s Shell文件 指定用户的登录Shell。
+    -u 用户号 指定用户的用户号，如果同时有-o选项，则可以重复使用其他用户的标识号。
+命令
+useradd stu    新增用户stu</pre><h6><a name='header-n116' class='md-header-anchor '></a>2.2.2 passwd</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>passwd给指定的用户设置密码
+用户管理的一项重要内容是用户口令的管理。用户账号刚创建时没有口令，但是被系统锁定，无法使用，必须为其指定口令后才可以使用，即使是指定空口令。指定和修改用户口令的Shell命令是passwd。超级用户可以为自己和其他用户指定口令，普通用户只能用它修改自己的口令
+格式：passwd [参数] 用户名
+常用参数：
+  -l 锁定口令，即禁用账号。
+  -u 口令解锁。
+  -d 使账号无口令。
+  -f 强迫用户下次登录时修改口令。
+如果默认用户名，则修改当前用户的口令，比如centOS 默认的root账号没有密码，就可以直接使用passwd修改密码即可。
+命令：
+passwd stu  按下enter键 输入2次密码即可</pre><h6><a name='header-n118' class='md-header-anchor '></a>2.2.3 userdel</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>userdel删除用户
+命令：
+userdel stu 			删除指定用户但是用户在home下面的目录保存
+userdel -r stu			删除指定用户并且删除对应的home目录	</pre><h6><a name='header-n120' class='md-header-anchor '></a>2.2.4 usermod</h6><pre class='md-fences mock-cm' style='display:block;position:relative'> usermod修改用户信息
+ 格式：usermod [参数] 
+  常用的参数包括-c, -d, -m, -g, -G, -s, -u以及-o等，这些选项的意义与useradd命令中的选项一样，可以为用户指定新的资源值。
+  另外，有些系统可以使用选项：-l 新用户名，这个选项指定一个新的账号，即将原来的用户名改为新的用户名。
+命令：
+usermod stu -l stu2   将用户名stu重命名为stu2</pre><h5><a name='header-n122' class='md-header-anchor '></a>2.3 用户组管理</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>每个用户都有一个用户组，系统可以对一个用户组中的所有用户进行集中管理。不同Linux 系统对用户组的规定有所不同，如Linux下的用户属于与它同名的用户组，这个用户组在创建用户时同时创建。
+用户组的管理涉及用户组的添加、删除和修改。组的增加、删除和修改实际上就是对/etc/group文件的更新</pre><h6><a name='header-n124' class='md-header-anchor '></a>2.3.1 groupadd</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>groupadd增加一个新的用户组
+格式：groupadd [参数] 用户组名称
+常用参数：
+  -g GID 指定新用户组的组标识号（GID）。
+  -o 一般与-g选项同时使用，表示新用户组的GID可以与系统已有用户组的GID相同
+命令：
+groupadd gp1			新增用户组gp1
+groupadd -g 1111 gp2	新增用户组gp2,并且组标记号为1111
+</pre><h6><a name='header-n126' class='md-header-anchor '></a>2.3.2 groupdel</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>groupdel删除一个用户组
+格式：groupdel  用户组名称
+命令：
+groupdel gp1			删除用户组gp1</pre><h6><a name='header-n128' class='md-header-anchor '></a>2.3.3 groupmod</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>groupmod修改用户组信息
+格式：groupmod [参数] 用户组名称
+常用参数：
+  -g GID 为用户组指定新的组标识号。
+  -o 与-g选项同时使用，用户组的新GID可以与系统已有用户组的GID相同。
+  -n 新用户组 将用户组的名字改为新名字
+  
+命令：
+groupmod gp2 -n gp5			让gp2更名为gp5</pre><h6><a name='header-n130' class='md-header-anchor '></a>2.3.4 newgrp</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>newgrp切换到其他用户组
+格式：newgrp 用户组名称
+命令：
+new grp gp5  切换到gp5</pre><p></p><h5><a name='header-n134' class='md-header-anchor '></a>2.4 磁盘管理</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>Linux磁盘管理好坏直接关系到整个系统的性能问题。
+Linux磁盘管理常用三个命令为df、du和fdisk。</pre><h6><a name='header-n136' class='md-header-anchor '></a>2.4.1 df</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>df列出文件系统的整体磁盘使用量
+df命令参数功能：检查文件系统的磁盘空间占用情况。可以利用该命令来获取硬盘被占用了多少空间，目前还剩下多少空间等信息。
+格式：df [参数] [目录或文件名]
+常用参数：
+  -a ：列出所有的文件系统，包括系统特有的 /proc 等文件系统；
+  -k ：以 KBytes 的容量显示各文件系统；
+  -m ：以 MBytes 的容量显示各文件系统；
+  -h ：以人们较易阅读的 GBytes, MBytes, KBytes 等格式自行显示；
+  -H ：以 M=1000K 取代 M=1024K 的进位方式；
+  -T ：显示文件系统类型, 连同该 partition 的 filesystem 名称 (例如 ext3) 也列出；
+  -i ：不用硬盘容量，而以 inode 的数量来显示
+ 命令：
+ df -h 	将容量结果以易读的容量格式显示出来
+ df -aT 将系统内的所有特殊文件格式及名称都列出来</pre><p> <img src='mdpic/p12.PNG' alt='p12' /></p><p></p><h6><a name='header-n142' class='md-header-anchor '></a>2.4.2 du</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>du命令也是查看使用空间的，但是与df命令不同的是Linux du命令是对文件和目录磁盘使用的空间的查看
+格式：du [参数] 文件或目录名称
+常用参数：
+-a ：列出所有的文件与目录容量，因为默认仅统计目录底下的文件量而已。
+-h ：以人们较易读的容量格式 (G/M) 显示；
+-s ：列出总量而已，而不列出每个各别的目录占用容量；
+-S ：不包括子目录下的总计，与 -s 有点差别。
+-k ：以 KBytes 列出容量显示；
+-m ：以 MBytes 列出容量显示；
+命令：
+du -a  			将文件的容量也列出来
+du -sm /* 		检查根目录底下每个目录所占用的容量</pre><h6><a name='header-n144' class='md-header-anchor '></a>2.4.3 fdisk</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>fdisk 是 Linux 的磁盘分区表操作工具
+格式：fdisk [参数] 装置名称
+常用参数：
+-l ：输出后面接的装置所有的分区内容。若仅有 fdisk -l 时， 则系统将会把整个系统内能够搜寻到的装置的分区均列出来
+命令：
+fdisk -l 		列出所有分区信息</pre><h5><a name='header-n146' class='md-header-anchor '></a>2.5 系统管理</h5><h6><a name='header-n147' class='md-header-anchor '></a>2.5.1 ps</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>ps 显示进程
+命令：
+ps -ef				显示所有进程		
+ps -ef | grep ssh   在所有的进程中搜索和ssh相关的			
+</pre><h6><a name='header-n149' class='md-header-anchor '></a>2.5.2 kill</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>kill 杀掉某个进程,后面跟着进程的id	
+命令：
+kill 1234		
+kill -9 1234强制干掉1234</pre><h6><a name='header-n151' class='md-header-anchor '></a>2.5.3 防火墙</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>service iptables status   	查看防火墙状态
+service iptables start		启动防火墙
+service iptables stop		关闭防火墙
+service iptables restart	重启
+chkconfig iptables off		永久关闭防火墙
+chkconfig iptables on		永久关闭后重启
+</pre><h6><a name='header-n153' class='md-header-anchor '></a>2.5.4 关机</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>shutdown -r now 立刻重启
+shutdown -r 10 过10分钟自动重启
+shutdown -r 20:35 在时间为20:35时候重启
+shutdown -c 取消重启
+poweroff 立刻关机
+shutdown -h now 立刻关机
+shutdown -h 10 10分钟后自动关机</pre><h6><a name='header-n155' class='md-header-anchor '></a>2.5.5 网络</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>ifconfig 查看网络ip地址
+ping ip地址  查看是否可以连接某个ip</pre><h6><a name='header-n157' class='md-header-anchor '></a>2.5.6 查找</h6><pre class='md-fences mock-cm' style='display:block;position:relative'>find / -name mysql     查询MYSQL</pre><h4><a name='header-n159' class='md-header-anchor '></a>第三节 常用文件</h4><h5><a name='header-n160' class='md-header-anchor '></a>3.1 /etc/passwd</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>Linux系统中的每个用户都在/etc/passwd文件中有一个对应的记录行，它记录了这个用户的一些基本属性。
+这个文件对所有用户都是可读的，下面就是文件的具体内容：</pre><p> <img src='mdpic/p10.PNG' alt='p10' /></p><pre class='md-fences mock-cm' style='display:block;position:relative'>文档格式：
+用户名:口令:用户标识号:组标识号:注释性描述:主目录:登录Shell</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>1）&quot;用户名&quot;是代表用户账号的字符串。
+通常长度不超过8个字符，并且由大小写字母和/或数字组成。登录名中不能有冒号(:)，因为冒号在这里是分隔符。
+为了兼容起见，登录名中最好不要包含点字符(.)，并且不使用连字符(-)和加号(+)打头。
+2）“口令”一些系统中，存放着加密后的用户口令字。
+虽然这个字段存放的只是用户口令的加密串，不是明文，但是由于/etc/passwd文件对所有用户都可读，所以这仍是一个安全隐患。因此，现在许多Linux 系统（如SVR4）都使用了shadow技术，把真正的加密后的用户口令字存放到/etc/shadow文件中，而在/etc/passwd文件的口令字段中只存放一个特殊的字符，例如“x”或者“*”。
+3）“用户标识号”是一个整数，系统内部用它来标识用户。
+一般情况下它与用户名是一一对应的。如果几个用户名对应的用户标识号是一样的，系统内部将把它们视为同一个用户，但是它们可以有不同的口令、不同的主目录以及不同的登录Shell等。
+通常用户标识号的取值范围是0～65 535。0是超级用户root的标识号，1～99由系统保留，作为管理账号，普通用户的标识号从100开始。在Linux系统中，这个界限是500。
+4）“组标识号”字段记录的是用户所属的用户组。
+它对应着/etc/group文件中的一条记录。
+5)“注释性描述”字段记录着用户的一些个人情况。
+例如用户的真实姓名、电话、地址等，这个字段并没有什么实际的用途。在不同的Linux 系统中，这个字段的格式并没有统一。在许多Linux系统中，这个字段存放的是一段任意的注释性描述文字，用做finger命令的输出。
+6)“主目录”，也就是用户的起始工作目录。
+它是用户在登录到系统之后所处的目录。在大多数系统中，各用户的主目录都被组织在同一个特定的目录下，而用户主目录的名称就是该用户的登录名。各用户对自己的主目录有读、写、执行（搜索）权限，其他用户对此目录的访问权限则根据具体情况设置。
+7)用户登录后，要启动一个进程，负责将用户的操作传给内核，这个进程是用户登录到系统后运行的命令解释器或某个特定的程序，即Shell。
+Shell是用户与Linux系统之间的接口。Linux的Shell有许多种，每种都有不同的特点。常用的有sh(Bourne Shell), csh(C Shell), ksh(Korn Shell), tcsh(TENEX/TOPS-20 type C Shell), bash(Bourne Again Shell)等。
+系统管理员可以根据系统情况和用户习惯为用户指定某个Shell。如果不指定Shell，那么系统使用sh为默认的登录Shell，即这个字段的值为/bin/sh。
+用户的登录Shell也可以指定为某个特定的程序（此程序不是一个命令解释器）。
+利用这一特点，我们可以限制用户只能运行指定的应用程序，在该应用程序运行结束后，用户就自动退出了系统。有些Linux 系统要求只有那些在系统中登记了的程序才能出现在这个字段中。
+8)系统中有一类用户称为伪用户（psuedo users）。
+这些用户在/etc/passwd文件中也占有一条记录，但是不能登录，因为它们的登录Shell为空。它们的存在主要是方便系统管理，满足相应的系统进程对文件属主的要求
+伪用户含义：
+  bin 拥有可执行的用户命令文件 
+  sys 拥有系统文件 
+  adm 拥有帐户文件 
+  uucp UUCP使用 
+  lp lp或lpd子系统使用 
+  nobody NFS使用</pre><h5><a name='header-n166' class='md-header-anchor '></a>3.2 /etc/group</h5><pre class='md-fences mock-cm' style='display:block;position:relative'>将用户分组是Linux 系统中对用户进行管理及控制访问权限的一种手段。
+每个用户都属于某个用户组；一个组中可以有多个用户，一个用户也可以属于不同的组。
+当一个用户同时是多个组中的成员时，在/etc/passwd文件中记录的是用户所属的主组，也就是登录时所属的默认组，而其他组称为附加组。
+用户要访问属于附加组的文件时，必须首先使用newgrp命令使自己成为所要访问的组中的成员。
+用户组的所有信息都存放在/etc/group文件中。此文件的格式也类似于/etc/passwd文件，由冒号(:)隔开若干个字段
+</pre><p> <img src='mdpic/p11.PNG' alt='p11' /></p><pre class='md-fences mock-cm' style='display:block;position:relative'>数据格式：
+组名:口令:组标识号:组内用户列表</pre><pre class='md-fences mock-cm' style='display:block;position:relative'>1、&quot;组名&quot;是用户组的名称，由字母或数字构成。与/etc/passwd中的登录名一样，组名不应重复。
+2、&quot;口令&quot;字段存放的是用户组加密后的口令字。一般Linux 系统的用户组都没有口令，即这个字段一般为空，或者是*。
+3、&quot;组标识号&quot;与用户标识号类似，也是一个整数，被系统内部用来标识组。
+4、&quot;组内用户列表&quot;是属于这个组的所有用户的列表/b]，不同用户之间用逗号(,)分隔。这个用户组可能是用户的主组，也可能是附加组。</pre></div>
+</body>
+</html>
