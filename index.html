@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<<<<<<< HEAD
 <title>XuZhong's Blog</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport"
@@ -73,6 +74,56 @@
 
 .right_main {
 	/* border-color:red;
+=======
+    <title>XuZhong's Blog</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta charset="utf-8"/>
+    <script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/marked.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    
+    <script type="text/javascript">
+    function onMenuClick(url){
+    	
+    	 $.get(url, function(response, status, xhr){ 
+    		
+    	    	$("#page_main").html(marked(response)); 
+    	 });
+    	 
+    	 return false;
+    }
+    
+    
+    
+  
+    
+    
+    </script>
+    
+    
+    <style type="text/css">
+        @media only screen and (min-width:768px) {
+            #slider_sub {
+                width: 250px;
+                margin-top: 51px;
+                position: absolute;
+                z-index: 1;
+                height: 688px;
+            }
+        }
+
+        .mysearch {
+            margin: 10px;
+        }
+
+        .page_main {
+            margin-left: 20px;
+        }
+        .right_main {
+        	/* border-color:red;
+>>>>>>> 2cf04685a5bff64fe62882d9a672bf97bf90cb36
         	border-radius:30px;
         	border-style:solid;
         	border-width:2px;
@@ -83,6 +134,7 @@
         	height:800px;
             margin-right: 50px;
             padding: 50px; */
+<<<<<<< HEAD
 	
 }
 
@@ -475,6 +527,601 @@ ul>li>ul>li {
 
 					</ul></li>
 				<!-- <li>
+=======
+        }
+   
+        ul>li>ul>li{
+        	
+        	padding-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<!--导航-->
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#slider_sub">
+            <span class="sr-only"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a href="https://xuzhongcn.github.io" class="navbar-brand">XuZhong's Blog</a>
+        <a href="https://github.com/XuZhongCN/" class="navbar-brand">GitHub</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right" style="margin-right: 20px;">
+        <li>
+        		     
+            <a href="http://wpa.qq.com/msgrd?v=3&uin=519934599&site=qq&menu=yes">&nbsp;QQ519934599</a>
+        </li>
+    </ul>
+    <!--侧边功能栏-->
+    <div class="" id="slider_sub">
+        <ul class="nav">
+
+            <li>
+                <a href="#sub1" data-toggle="collapse">
+                    Java基础<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub1" class="nav collapse">
+                    <li>
+                        <a href="basejava/01/javabase1.html" target="center_man" >
+                            	1、Java入门</a>
+                    </li>
+                      <li>
+                         <a href="basejava/02/javabase2.html" target="center_man" >
+                            	2、Java基础语法</a>
+                    </li>
+                       <li>
+                         <a href="basejava/03/javabase3.html" target="center_man" >
+                            	3、分支语句</a>
+                    </li>
+                      <li>
+                         <a href="basejava/04/javabase4.html" target="center_man" >
+                            	4、循环语句</a>
+                    </li>
+                      <li>
+                         <a href="basejava/05/javabase5.html" target="center_man" >
+                            	5、方法</a>
+                    </li>
+                      <li>
+                        <a href="basejava/06/javabase6.html" target="center_man" >
+                            	6、面向对象</a>
+                    </li>
+                      <li>
+                        <a href="basejava/07/javabase7.html" target="center_man" >
+                            	7、封装继承</a>
+                    </li>
+                      <li>
+                        <a href="basejava/08/javabase8.html" target="center_man" >
+                            	8、对象转型和多态</a>
+                    </li>
+                      <li>
+                         <a href="basejava/09/javabase9.html" target="center_man" >
+                            	9、抽象类和接口</a>
+                    </li>
+                      <li>
+                         <a href="basejava/10/javabase10.html" target="center_man" >
+                            	10、数组</a>
+                    </li>
+                      <li>
+                        <a href="basejava/11/javabase11.html" target="center_man" >
+                            	11、二维数组和异常</a>
+                    </li>
+                      <li>
+                         <a href="basejava/12/javabase12.html" target="center_man" >
+                            	12、内部类和设计模式</a>
+                    </li>
+                      <li>
+                         <a href="basejava/13/javabase13.html" target="center_man" >
+                            	13、基本类型包装类和字符串</a>
+                    </li>
+                      <li>
+                         <a href="basejava/14/javabase14.html" target="center_man" >
+                            	14、常用类</a>
+                    </li>
+                      <li>
+                         <a href="basejava/15/javabase15.html" target="center_man" >
+                            	15、集合</a>
+                    </li>
+                      <li>
+                         <a href="basejava/16/javabase16.html" target="center_man" >
+                            	16、Set与Map</a>
+                    </li>
+                      <li>
+                         <a href="basejava/17/javabase17.html" target="center_man" >
+                            	17、文件和字节流</a>
+                    </li>
+                      <li>
+                         <a href="basejava/18/javabase18.html" target="center_man" >
+                            	18、字符流缓存流等</a>
+                    </li>
+                      <li>
+                        <a href="basejava/19/javabase19.html" target="center_man" >
+                            	19、多线程基础</a>
+                    </li>
+                      <li>
+                        <a href="basejava/20/javabase20.html" target="center_man" >
+                            	20、多线程同步</a>
+                    </li>
+                      <li>
+                         <a href="basejava/21/javabase21.html" target="center_man" >
+                            	21、网络编程</a>
+                    </li>
+                      <li>
+                        <a href="basejava/22/javabase22.html" target="center_man" >
+                            	22、NIO</a>
+                    </li>
+                      <li>
+                         <a href="basejava/23/javabase23.html" target="center_man" >
+                            	23、反射</a>
+                    </li>
+                
+                   
+                </ul>
+            </li>
+            <li>
+                <a href="#sub2" data-toggle="collapse">
+                    Java Web基础<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub2" class="nav collapse">
+                    <li>
+                         <a href="javaweb/01/web01.html" target="center_man" >
+                            	1、MySQL基础</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/02/web02.html" target="center_man" >
+                            	2、MySQL约束-联表</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/03/web03.html" target="center_man" >
+                                3、JDBC</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/04/web04.html" target="center_man" >
+                            	4、JDBC高级</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/05/web05.html" target="center_man" >
+                            	5、HTML</a>
+                    </li>
+                 <li>
+                         <a href="javaweb/06/web06.html" target="center_man" >
+                            	6、CSS样式</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/07/web07.html" target="center_man" >
+                            	7、JavaScript基础</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/08/web08.html" target="center_man" >
+                            	8、BOM-DOM</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/09/web09.html" target="center_man" >
+                            	9、Web项目与Tomcat</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/10/web10.html" target="center_man" >
+                            	10、Servlet的使用</a>
+                    </li>
+                    <li>
+                         <a href="javaweb/11/web11.html" target="center_man" >
+                            	11、Request与Response</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/12/web12.html" target="center_man" >
+                            	12、Cookie与Session</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/13/web13.html" target="center_man" >
+                            	13、Listener与Filter</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/14/web14.html" target="center_man" >
+                            	14、JSP技术</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/15/web15.html" target="center_man" >
+                            	15、文件上传与下载</a>
+                    </li>
+                    <li>
+                         <a href="javaweb/16/web16.html" target="center_man" >
+                            	16、连接池与DBUtils</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/17/web17.html" target="center_man" >
+                            	17、Ajax技术</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/18/web18.html" target="center_man" >
+                            	18、jQuery</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/19/web19.html" target="center_man" >
+                            	19、Bootstrap</a>
+                    </li>
+                        <li>
+                         <a href="javaweb/20/web20.html" target="center_man" >
+                            	20、MVC与分页</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#sub3" data-toggle="collapse">
+                    Maven<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub3" class="nav collapse">
+                    <li>
+                        <a href="maven/Maven.html" target="center_man">1、Maven的使用</a>
+                    </li>
+               <li>
+                        <a href="maven/nexus/Nexus.html" target="center_man">2、Maven的私服Nexus</a>
+                    </li>
+                </ul>
+            </li>
+              <li>
+                <a href="#sub4" data-toggle="collapse">
+                    Hibernate<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub4" class="nav collapse">
+                    <li>
+                        <a href="hibernate/01/Hibernate01.html" target="center_man">
+                        1、基本应用</a>
+                    </li>
+               		<li>
+                        <a href="hibernate/02/Hibernate02.html" target="center_man">
+                        2、持久化状态</a>
+                    </li>
+                                   <li>
+                        <a href="hibernate/03/Hibernate03.html" target="center_man">
+                        3、表关系</a>
+                    </li>
+                                   <li>
+                        <a href="hibernate/04/Hibernate04.html" target="center_man">
+                        4、查询以及优化策略</a>
+                    </li>
+                                   <li>
+                        <a href="hibernate/05/Hibernate05.html" target="center_man">
+                        5、Hibernate结合JPA</a>
+                    </li>
+                </ul>
+            </li>
+              <li>
+                <a href="#sub5" data-toggle="collapse">
+                    Spring<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub5" class="nav collapse">
+                    <li>
+                        <a href="spring/Spring01.html" target="center_man">
+                        1、Ioc基本使用</a>
+                    </li>
+               		<li>
+                        <a href="spring/Spring02.html" target="center_man">
+                        2、注入与注解方式</a>
+                    </li>
+                                   <li>
+                        <a href="spring/Spring03.html" target="center_man">
+                        3、AOP编程</a>
+                    </li>
+                                   <li>
+                        <a href="spring/Spring04.html" target="center_man">
+                        4、JDBC数据库事务</a>
+                    </li>
+                                   <li>
+                        <a href="spring/Spring-Jar.html" target="center_man">
+                        5、Spring各个Jar作用</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#sub6" data-toggle="collapse">
+                   SpringMVC<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub6" class="nav collapse">
+                    <li>
+                        <a href="springmvc/SpringMVC-01.html" target="center_man">1、SpringMVC(上)</a>
+                    </li>
+                    <li>
+                        <a href="springmvc/SpringMVC-02.html" target="center_man">2、SpringMVC(下)</a>
+                    </li>
+                   
+                </ul>
+            </li>
+            <li>
+             <a href="#sub7" data-toggle="collapse">
+                   Mybatis<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub7" class="nav collapse">
+                    <li>
+                        <a href="mybatis/MyBatis-01.html" target="center_man">1、基础知识</a>
+                    </li>
+                    <li>
+                        <a href="mybatis/MyBatis-02.html" target="center_man">2、映射关系及优化</a>
+                    </li>
+                    <li>
+                        <a href="mybatis/MyBatis-03.html" target="center_man">3、整合</a>
+                    </li>
+                         <li>
+                        <a href="mybatis/annotation/MyBatis Annotation.html" target="center_man">4、注解</a>
+                    </li>
+                </ul>
+            </li>
+                        <li>
+                <a href="#sub8" data-toggle="collapse">
+                   Web Service<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub8" class="nav collapse">
+                    <li>
+                        <a href="webservice/WebService-01.html" target="center_man">1、Web Service(上)</a>
+                    </li>
+                    <li>
+                        <a href="webservice/WebService-02.html" target="center_man">2、Web Service(下)</a>
+                    </li>
+                   
+                </ul>
+            </li>
+            <li>
+                <a href="#sub11" data-toggle="collapse">
+                   ActiveMQ<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub11" class="nav collapse">
+                    <li>
+                        <a href="activemq/activeMQ.html" target="center_man">ActiveMQ</a>
+                    </li>
+                </ul>
+            </li>
+            
+            <li>
+                <a href="#sub12" data-toggle="collapse">
+                   Dubbo<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub12" class="nav collapse">
+                    <li>
+                        <a href="dubbo/dubbo.html" target="center_man">Dubbo</a>
+                    </li>
+                </ul>
+            </li>
+            
+          
+          
+          
+                <li>
+                <a href="#sub13" data-toggle="collapse">
+                   FastDFS<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub13" class="nav collapse">
+                    <li>
+                        <a href="fastdfs/fastdfs.html" target="center_man">fastdfs 单机版配置</a>
+                    </li>
+                     <li>
+                        <a href="fastdfs/Java_FastDfs.html" target="center_man">Java 操作 FastDfs</a>
+                    </li>
+                </ul>
+            </li>
+          
+          
+                <li>
+                <a href="#sub14" data-toggle="collapse">
+                   Freemarker<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub14" class="nav collapse">
+                    <li>
+                        <a href="freemarker/freemarker.html" target="center_man">Freemarker</a>
+                    </li>
+                </ul>
+            </li>
+          
+          
+          
+                <li>
+                <a href="#sub15" data-toggle="collapse">
+                   Git<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub15" class="nav collapse">
+                    <li>
+                        <a href="git/Git.html" target="center_man">Git的使用</a>
+                    </li>
+                </ul>
+            </li>
+          
+            <li>
+                <a href="#sub16" data-toggle="collapse">
+                   Linux<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub16" class="nav collapse">
+                    <li>
+                        <a href="linux/Linux_day1.html" target="center_man">1、Linux（上）</a>
+                    </li>
+                     <li>
+                        <a href="linux/Linux_day2.html" target="center_man">2、Linux（下）</a>
+                    </li>
+                </ul>
+            </li>
+          	
+            <li>
+                <a href="#sub17" data-toggle="collapse">
+                   MySQL<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub17" class="nav collapse">
+                    <li>
+                        <a href="mysql/01/mysql.html" target="center_man">1、查询性能优化</a>
+                    </li>
+                     <li>
+                        <a href="mysql/02/mysql.html" target="center_man">2、索引</a>
+                    </li>
+                    <li>
+                        <a href="mysql/03/mysql.html" target="center_man">3、锁</a>
+                    </li>
+                    <li>
+                        <a href="mysql/04/mysql.html" target="center_man">4、优化</a>
+                    </li>
+                    <li>
+                        <a href="mysql/05/mysql.html" target="center_man">5、优化服务器设置</a>
+                    </li>
+                    <li>
+                        <a href="mysql/06/mysql.html" target="center_man">6、执行计划</a>
+                    </li>
+                    <li>
+                        <a href="mysql/07/mysql.html" target="center_man">7、存储引擎</a>
+                    </li>
+                    <li>
+                        <a href="mysql/08/mysql.html" target="center_man">8、Schema与数据类型</a>
+                    </li>
+                    <li>
+                        <a href="mysql/09/mysql.html" target="center_man">9、配置参数</a>
+                    </li>
+                </ul>
+            </li>
+          <li>
+                <a href="#sub18" data-toggle="collapse">
+                   Nginx<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub18" class="nav collapse">
+                    <li>
+                        <a href="nginx/nginx.html" target="center_man">Nginx的使用</a>
+                    </li>
+                </ul>
+            </li>
+          
+              <li>
+                <a href="#sub19" data-toggle="collapse">
+                   quartz<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub19" class="nav collapse">
+                    <li>
+                        <a href="quartz/quartz.html" target="center_man">quartz的使用</a>
+                    </li>
+                </ul>
+            </li>
+          
+              <li>
+                <a href="#sub20" data-toggle="collapse">
+                   Redis<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub20" class="nav collapse">
+                    <li>
+                        <a href="redis/Redis.html" target="center_man">1、Redis</a>
+                    </li>
+                     <li>
+                        <a href="redis/redis集群搭建.html" target="center_man">2、redis集群搭建</a>
+                    </li>
+                     <li>
+                        <a href="redis/Redis之Java.html" target="center_man">3、Redis之Java</a>
+                    </li>
+                </ul>
+            </li>
+           <li>
+                <a href="#sub21" data-toggle="collapse">
+                   shiro<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub21" class="nav collapse">
+                    <li>
+                        <a href="shiro/shiro.html" target="center_man">shiro的使用</a>
+                    </li>
+                </ul>
+            </li>
+            
+            <li>
+                <a href="#sub22" data-toggle="collapse">
+                   solr<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub22" class="nav collapse">
+                    <li>
+                        <a href="solr/solr5_1/solr1.html" target="center_man">1、solr5单机</a>
+                    </li>
+                      <li>
+                        <a href="solr/solr5_2/solr2.html" target="center_man">2、solr5集群</a>
+                    </li>
+                      <li>
+                        <a href="solr/solr7_1/solr1.html" target="center_man">3、solr7单机</a>
+                    </li>
+                      <li>
+                        <a href="solr/solr7_2/solr2.html" target="center_man">4、solr7集群</a>
+                    </li>
+                </ul>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          
+            <li>
+                <a href="#sub56" data-toggle="collapse">
+                   hadoop<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub56" class="nav collapse">
+                    <li>
+                        <a href="hadoop/01/hadoop.html" target="center_man">1、hadoop介绍</a>
+                    </li>
+                    <li>
+                        <a href="hadoop/02/hdfs.html" target="center_man">2、hdfs的使用</a>
+                    </li>
+                   <li>
+                        <a href="hadoop/03/zookeeper.html" target="center_man">3、zookeeper</a>
+                    </li>
+                    <li>
+                        <a href="hadoop/04/HDFS的java api.html" target="center_man">4、HDFS的Java API</a>
+                    </li>
+                    <li>
+                        <a href="hadoop/05/hadoop HA.html" target="center_man">5、hadoop HA</a>
+                    </li>
+                    <li>
+                        <a href="hadoop/06/marpreduce.html" target="center_man">6、marpreduce（上）</a>
+                    </li>
+                    <li>
+                        <a href="hadoop/07/marpreduce_shuffle.html" target="center_man">7、marpreduce（下）</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#sub57" data-toggle="collapse">
+                   Spark<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub57" class="nav collapse">
+                    <li>
+                        <a href="spark/01/Spark.html" target="center_man">1、Spark基本知识</a>
+                    </li>
+                    <li>
+                        <a href="spark/02/Spark.html" target="center_man">2、Spark算子</a>
+                    </li>
+                     <li>
+                        <a href="spark/03/Spark.html" target="center_man">3、Spark集群与任务</a>
+                    </li>
+                        <li>
+                        <a href="spark/04/Spark.html" target="center_man">4、SparkSQL相关</a>
+                    </li>
+                      <li>
+                        <a href="spark/05/Kafka.html" target="center_man">5、Kafka</a>
+                    </li>
+                     <li>
+                        <a href="spark/06/SparkStreaming_Spark On Yarn.html" target="center_man">6、SparkStreaming</a>
+                    </li>
+                </ul>
+            </li>
+             <li>
+                <a href="#sub99" data-toggle="collapse">
+                   闲来随笔<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+                </a>
+                <ul id="sub99" class="nav collapse">
+                    <li>
+                        <a href="my/01/Java1.html" target="center_man">1、Java类与对象加载过程</a>
+                    </li>
+                    <li>
+                        <a href="my/02/Sort.html" target="center_man">2、排序与JDK源码浅谈</a>
+                    </li>
+                   
+                </ul>
+            </li>
+          <!-- <li>
+>>>>>>> 2cf04685a5bff64fe62882d9a672bf97bf90cb36
                 <a href="#sub51" data-toggle="collapse">
                     Android基础<span class="glyphicon glyphicon-chevron-right pull-right"></span>
                 </a>
@@ -507,6 +1154,7 @@ ul>li>ul>li {
                    
                 </ul>
             </li> -->
+<<<<<<< HEAD
 			</ul>
 		</div>
 	</nav>
@@ -520,6 +1168,21 @@ ul>li>ul>li {
 
 	</div>
 	<div class="go_top" id="go_top"><a id="backtopbutton" href="#top" type="button" class="btn btn-info">返回顶部</a></div>
+=======
+        </ul>
+    </div>
+</nav>
+<div class="page_main" id="page_main">
+    <iframe name="center_man" id="center_man" frameborder="0" width="1350px" height="1800px" src="center.html">
+    </iframe>
+</div>
+
+<div class="right_main" id="right_main">
+	<div></div>
+	
+</div>
+
+>>>>>>> 2cf04685a5bff64fe62882d9a672bf97bf90cb36
 </body>
 
 </html>
