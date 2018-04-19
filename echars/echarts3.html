@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="js/echarts.min.js"></script>
+	</head>
+
+	<body>
+		<div id="main" style="width: 600px;height:400px;"></div>
+		<script>
+			// 基于准备好的dom，初始化 echarts 实例并绘制图表。
+			echarts.init(document.getElementById('main')).setOption({
+				title: {
+					text: 'Line Chart'
+				},
+				tooltip: {},
+				toolbox: {
+					feature: {
+						dataView: {},
+						saveAsImage: {
+							//保存成图片时的比例
+							pixelRatio: 2
+						},
+						restore: {}
+					}
+				},
+				xAxis: {},
+				yAxis: {},
+				series: [{
+					type: 'line',
+					smooth: true,
+					data: [
+						[12, 5],
+						[24, 20],
+						[36, 36],
+						[48, 10],
+						[60, 10],
+						[72, 20]
+					]
+				}]
+			});
+		</script>
+	</body>
+
+</html>
