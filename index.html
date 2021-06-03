@@ -102,11 +102,34 @@ ul>li>ul>li {
 					class="icon-bar"></span> <span class="icon-bar"></span>
 			</button>
 			<a href="https://xuzhongcn.github.io" class="navbar-brand">XuZhong's
-				Blog</a> <a href="https://github.com/XuZhongCN/" class="navbar-brand">GitHub</a>
+				Blog</a> <span id="showCount" class="navbar-brand"></span> <a href="https://github.com/XuZhongCN/" class="navbar-brand">欢迎关注我的GitHub</a>
 		</div>
+		<script>
+			let xmlhttp=null;
+		    if(window.XMLHttpRequest){
+		    	//IE7+  Firefox  Chrome等浏览器
+		    	xmlhttp=new XMLHttpRequest();
+		    }else{
+		    	//低版本浏览器
+		    	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		    }
+		    //设置网络变化的监听
+		    xmlhttp.onreadystatechange=function(){
+		    	//响应信息读取完毕  并且  服务器网络响应码是成功
+		    	if(xmlhttp.readyState==4&&xmlhttp.status==200){
+		    		let result=JSON.parse(xmlhttp.responseText);
+					document.getElementById("showCount").innerHTML="当前访问次数为："+result.result+"次";
+		    	}
+		    }
+	        
+		    //打开连接
+		    xmlhttp.open("get","http://59.110.124.50:8001/blog/showCount",true);
+	        xmlhttp.send();
+		</script>
+		
 		<ul class="nav navbar-nav navbar-right" style="margin-right: 20px;">
 			<li><a
-				href="http://wpa.qq.com/msgrd?v=3&uin=519934599&site=qq&menu=yes">&nbsp;QQ519934599</a>
+				href="http://wpa.qq.com/msgrd?v=3&uin=519934599&site=qq&menu=yes">&nbsp;实时联系作者QQ519934599</a>
 			</li>
 		</ul>
 		<!--侧边功能栏-->
